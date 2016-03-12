@@ -14,8 +14,7 @@ namespace ParquetPlates
         }
         double GetNumberOfNeededPlates(double roomLength, double roomWidth, double plateLength, double plateWidth)
         {
-            double numberOfPlates = ((roomLength * roomWidth)/(plateLength * plateWidth));
-            return numberOfPlates / 0.85;
+            return (roomLength * roomWidth) / (plateLength * plateWidth * 0.85);
         }
     }
 }
