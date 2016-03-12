@@ -4,11 +4,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ParquetPlates
 {
     [TestClass]
-    public class UnitTest1
+    public class ParguetPlates
     {
         [TestMethod]
         public void TestMethod1()
         {
+            double numberOfPlates = GetNumberOfNeededPlates(3.4, 2, 1, 2);
+            Assert.AreEqual(4, numberOfPlates);
+        }
+        double GetNumberOfNeededPlates(double roomLength, double roomWidth, double plateLength, double plateWidth)
+        {
+            double numberOfPlates = ((roomLength * roomWidth)/(plateLength * plateWidth));
+            return numberOfPlates / 0.85;
         }
     }
 }
