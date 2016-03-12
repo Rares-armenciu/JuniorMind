@@ -20,7 +20,7 @@ namespace SportRounds
         }
         int CalculateTotalNoOfRepetitions(int rounds)
         {
-            return (rounds-1)*(rounds)+rounds;
+            return rounds*rounds;
         }
     }
 }
