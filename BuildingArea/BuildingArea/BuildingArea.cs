@@ -9,7 +9,13 @@ namespace BuildingArea
         [TestMethod]
         public void TestMethod1()
         {
-            decimal areaOfBuilding = CalculateAreaOfBuilding(0, 0, 2, 0,1 , 2);
+            decimal areaOfBuilding = CalculateAreaOfBuilding(0, 0, 2, 0, 1 , 2);
+            Assert.AreEqual(2, areaOfBuilding);
+        }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            decimal areaOfBuilding = CalculateAreaOfBuilding(2, 1, 4, 5, 2, 3);
             Assert.AreEqual(2, areaOfBuilding);
         }
         decimal CalculateAreaOfBuilding(decimal x1, decimal y1, decimal x2, decimal y2, decimal x3, decimal y3)
