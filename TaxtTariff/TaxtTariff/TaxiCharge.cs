@@ -11,6 +11,11 @@ namespace TaxiCharge
         {
             Assert.AreEqual(50, CalculateTotalPrice(9, 10));
         }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            Assert.AreEqual(800, CalculateTotalPrice(23, 100));
+        }
         int CalculateTotalPrice(int hour, int distance)
         {
             if (hour > 7 && hour < 22)
