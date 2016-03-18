@@ -16,6 +16,16 @@ namespace FizzBuzz
         {
             Assert.AreEqual("FizzBuzz", CheckFizzBuzz(15));
         }
+        [TestMethod]
+        public void TestMethod3()
+        {
+            Assert.AreEqual("Buzz", CheckFizzBuzz(20));
+        }
+        [TestMethod]
+        public void TestMethod4()
+        {
+            Assert.AreEqual("No FizzBuzz", CheckFizzBuzz(13));
+        }
         string CheckFizzBuzz(int number)
         {
             if (number % 3 == 0 && number % 5 == 0)
