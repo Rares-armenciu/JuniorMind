@@ -11,10 +11,17 @@ namespace FarmTerrain
         {
             Assert.AreEqual(2, getTerrainSize(2, 8));
         }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            Assert.AreEqual(770, getTerrainSize(230, 770000));
+        }
         double getTerrainSize(int addedSize, int totalArea)
         {
             double sqrtDelta =Math.Sqrt( Math.Pow(addedSize, 2) + 4 * totalArea);
-            return getFirstValue(sqrtDelta, addedSize);
+            if(getFirstValue(sqrtDelta, addedSize)>getSecondValue(sqrtDelta, addedSize))
+                return getFirstValue(sqrtDelta, addedSize);
+            return getSecondValue(sqrtDelta, addedSize);
         }
         double getFirstValue(double sqrtDelta, int addedSize)
         {
