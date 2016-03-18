@@ -9,11 +9,22 @@ namespace RomanNumbers
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual("III", ConvertNumberToRoman(3));
+            Assert.AreEqual("LI", ConvertNumberToRoman(51));
         }
         string ConvertNumberToRoman(int number)
         {
-            return string.Empty;
+            string romanNumber = null;
+            int[] roman = { 1, 5, 10, 50, 100 };
+            string roman2 = "IVXLC";
+            for(int i=4; i>-1; i--)
+            {
+                if(number/roman[i]!=0)
+                {
+                    romanNumber += roman2[i];
+                    number -= roman[i];
+                }
+            }
+            return romanNumber;
         }
     }
 }
