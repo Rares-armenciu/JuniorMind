@@ -11,6 +11,11 @@ namespace RomanNumbers
         {
             Assert.AreEqual("LI", ConvertNumberToRoman(51));
         }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            Assert.AreEqual("XIV", ConvertNumberToRoman(14));
+        }
         string ConvertNumberToRoman(int number)
         {
             string romanNumber = null;
@@ -20,8 +25,22 @@ namespace RomanNumbers
             {
                 if(number/roman[i]!=0)
                 {
-                    romanNumber += roman2[i];
-                    number -= roman[i];
+                    if(number>=90)
+                    {
+                        romanNumber = "XC";
+                        number -= 90;
+                        i = 2;
+                    }
+                    if(number/roman[i]==4)
+                    {
+                        romanNumber += roman2[i];
+                        romanNumber += roman2[i + 1];
+                    }
+                    else
+                    {
+                        romanNumber += roman2[i];
+                        number -= roman[i];
+                    }
                 }
             }
             return romanNumber;
