@@ -11,6 +11,11 @@ namespace LunchSchedule
         {
             Assert.AreEqual(12, CalculateMeetingTime(6, 4));
         }
+        [TestMethod]
+        public void TestForExceptionlCase()
+        {
+            Assert.AreEqual(4, CalculateMeetingTime(4, 4));
+        }
         int CalculateMeetingTime(int mySchedule, int friendsSchedule)
         {
             int productOfNumbers = mySchedule * friendsSchedule;
