@@ -11,6 +11,11 @@ namespace ChessTable
         {
             Assert.AreEqual(5, CalculateNumberOfSquares(2));
         }
+        [TestMethod]
+        public void TestForChessTable()
+        {
+            Assert.AreEqual(204, CalculateNumberOfSquares(8));
+        }
         int CalculateNumberOfSquares(int dimension)
         {
             int squaresTotal = 0;
