@@ -4,11 +4,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LunchSchedule
 {
     [TestClass]
-    public class UnitTest1
+    public class LunchSchedule
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestIfWeMeetInTwelweDays()
         {
+            Assert.AreEqual(12, CalculateMeetingTime(6, 4));
+        }
+        int CalculateMeetingTime(int mySchedule, int friendsSchedule)
+        {
+            return 0;
         }
     }
 }
