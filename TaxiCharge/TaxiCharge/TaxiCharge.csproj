@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFE3DD15-55B1-491D-A852-414D1DF4876C}</ProjectGuid>
+    <ProjectGuid>{989196DC-4E17-4EC3-BD33-C6428F48C1EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TaxtTariff</RootNamespace>
-    <AssemblyName>TaxtTariff</AssemblyName>
+    <RootNamespace>TaxiCharge</RootNamespace>
+    <AssemblyName>TaxiCharge</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

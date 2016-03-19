@@ -9,36 +9,58 @@ namespace TaxiCharge
         [TestMethod]
         public void TestMethod1()
         {
-            Assert.AreEqual(50, CalculateTotalPrice(9, 10));
+            Assert.AreEqual(10, CalculateTotalPrice(2, 10));
         }
         [TestMethod]
         public void TestMethod2()
         {
-            Assert.AreEqual(800, CalculateTotalPrice(23, 100));
+            Assert.AreEqual(300, CalculateTotalPrice(30, 24));
         }
-        int CalculateTotalPrice(int hour, int distance)
+        [TestMethod]
+        public void TestMethod3()
         {
-            if (hour > 7 && hour < 22)
-            {
-                if (distance > 0 && distance < 21)
-                    return distance * 5;
-                if (distance > 20 && distance < 61)
-                    return distance * 8;
-                if (distance > 60)
-                    return distance * 6;
-                else return 0;
-            }
-            if((hour>=0 && hour<8)||(hour>21&&hour<25))
-            {
-                if (distance > 0 && distance < 21)
-                    return distance * 7;
-                if (distance > 20 && distance < 61)
-                    return distance * 10;
-                if (distance > 60)
-                    return distance * 8;
-                else return 0;
-            }
-            else return 0;
+            Assert.AreEqual(800, CalculateTotalPrice(100, 5));
         }
+        int CalculateTotalPrice(int traveledDistance, int travelHour)
+        {
+            if(CheckIfItIsDay(travelHour)==true)
+                return PriceForDayTrip(traveledDistance);
+            if (CheckIfItIsNight(travelHour) == true)
+                return PriceForNightTrip(traveledDistance);
+            return 0;
+        }
+        private bool CheckIfItIsDay(int travelHour)
+        {
+            if (travelHour >= 8 && travelHour < 21)
+                return true;
+            return false;
+        }
+        private bool CheckIfItIsNight(int travelHour)
+        {
+            if (travelHour >= 0 && travelHour < 8 || travelHour > 21 && travelHour <= 24)
+                return true;
+            return false;
+        }
+        private int PriceForDayTrip(int traveledDistance)
+        {
+            if (traveledDistance <= 20)
+                return traveledDistance * 5;
+            if (traveledDistance > 20 && traveledDistance <= 60)
+                return traveledDistance * 8;
+            return traveledDistance * 6;
+        }
+        private int PriceForNightTrip(int traveledDistance)
+        {
+            if (traveledDistance <= 20)
+                return traveledDistance * 7;
+            if (traveledDistance > 20 && traveledDistance <= 60)
+                return traveledDistance * 10;
+            return traveledDistance * 8;
+        }
+
+
+
+        
+
     }
 }
