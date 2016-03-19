@@ -21,20 +21,20 @@ namespace RomanNumbers
         {
             Assert.AreEqual("XCIX", ConvertNumberToRoman(99));
         }
-        string ConvertNumberToRoman(int number)
+        string ConvertNumberToRoman(int numberToConvert)
         {
-            string romanNumber = null;
-            int[] roman = { 1, 4, 5, 9, 10, 40, 50, 90, 100 };
-            string[] roman2 = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C" };
-            for(int i=8; i>-1; i--)
+            string convertedNumber = null;
+            int[] arabicNumbers = { 1, 4, 5, 9, 10, 40, 50, 90, 100 };
+            string[] romanNumbers = { "I", "IV", "V", "IX", "X", "XL", "L", "XC", "C" };
+            for(int i=arabicNumbers.Length-1; i>-1; i--)
             {
-                while(number/roman[i]!=0)
+                while(numberToConvert >= arabicNumbers[i])
                 {
-                    romanNumber += roman2[i];
-                    number -= roman[i];
+                    convertedNumber += romanNumbers[i];
+                    numberToConvert -= arabicNumbers[i];
                 }
             }
-            return romanNumber;
+            return convertedNumber;
         }
     }
 }
