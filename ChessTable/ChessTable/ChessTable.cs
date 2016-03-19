@@ -7,13 +7,16 @@ namespace ChessTable
     public class ChessTable
     {
         [TestMethod]
-        public void TestForFourOnFOurTable()
+        public void TestForTwoOnTwoTable()
         {
-            Assert.AreEqual(5, CalculateNumberOfSquares(4));
+            Assert.AreEqual(5, CalculateNumberOfSquares(2));
         }
         int CalculateNumberOfSquares(int dimension)
         {
-            return 0;
+            int squaresTotal = 0;
+            for (int i = 1; i <= dimension; i++)
+                squaresTotal += i * i;
+            return squaresTotal;
         }
     }
 }
