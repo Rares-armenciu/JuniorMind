@@ -19,6 +19,8 @@ namespace LunchSchedule
         int CalculateMeetingTime(int mySchedule, int friendsSchedule)
         {
             int productOfNumbers = mySchedule * friendsSchedule;
+            if (mySchedule == friendsSchedule)
+                return mySchedule;
             if (productOfNumbers % CalculateDifference(mySchedule, friendsSchedule) == 0)
                 return productOfNumbers / CalculateDifference(mySchedule, friendsSchedule);
             return productOfNumbers;
