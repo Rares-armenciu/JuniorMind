@@ -13,7 +13,17 @@ namespace LunchSchedule
         }
         int CalculateMeetingTime(int mySchedule, int friendsSchedule)
         {
-            return 0;
+            int productOfNumbers = mySchedule * friendsSchedule;
+            if (productOfNumbers % CalculateDifference(mySchedule, friendsSchedule) == 0)
+                return productOfNumbers / CalculateDifference(mySchedule, friendsSchedule);
+            return productOfNumbers;
+        }
+
+        private int CalculateDifference(int mySchedule, int friendsSchedule)
+        {
+            if (mySchedule > friendsSchedule)
+                return mySchedule - friendsSchedule;
+            return friendsSchedule - mySchedule;
         }
     }
 }
