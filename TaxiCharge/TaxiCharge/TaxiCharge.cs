@@ -23,11 +23,11 @@ namespace TaxiCharge
         }
         int CalculateTotalPrice(int traveledDistance, int travelHour)
         {
-            if(CheckIfItIsDay(travelHour)==true)
-                return PriceForDayTrip(traveledDistance);
-            if (CheckIfItIsNight(travelHour) == true)
-                return PriceForNightTrip(traveledDistance);
-            return 0;
+            int[] priceForDay = { 5, 8, 6 };
+            int[] priceForNight = { 7, 10, 8 };
+            if (CheckIfItIsDay(travelHour))
+                return priceForDay[PricePerKm(traveledDistance)] * traveledDistance;
+            return priceForNight[PricePerKm(traveledDistance)] * traveledDistance;
         }
         private bool CheckIfItIsDay(int travelHour)
         {
@@ -35,27 +35,13 @@ namespace TaxiCharge
                 return true;
             return false;
         }
-        private bool CheckIfItIsNight(int travelHour)
-        {
-            if (travelHour >= 0 && travelHour < 8 || travelHour > 21 && travelHour <= 24)
-                return true;
-            return false;
-        }
-        private int PriceForDayTrip(int traveledDistance)
+        private int PricePerKm(int traveledDistance)
         {
             if (traveledDistance <= 20)
-                return traveledDistance * 5;
+                return 0;
             if (traveledDistance > 20 && traveledDistance <= 60)
-                return traveledDistance * 8;
-            return traveledDistance * 6;
-        }
-        private int PriceForNightTrip(int traveledDistance)
-        {
-            if (traveledDistance <= 20)
-                return traveledDistance * 7;
-            if (traveledDistance > 20 && traveledDistance <= 60)
-                return traveledDistance * 10;
-            return traveledDistance * 8;
+                return 1;
+            return 2;
         }
 
 
