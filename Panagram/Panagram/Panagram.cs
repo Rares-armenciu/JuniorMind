@@ -11,6 +11,11 @@ namespace Panagram
         {
             Assert.AreEqual("YES", CheckIfPanagram("The quick brown fox jumps over the lazy dog"));
         }
+        [TestMethod]
+        public void TestForNotPanagram()
+        {
+            Assert.AreEqual("NO", CheckIfPanagram("This is not a panagram."));
+        }
         string CheckIfPanagram(string panagram)
         {
             char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
