@@ -11,6 +11,11 @@ namespace Prefix
         {
             Assert.AreEqual("aaa", FindCommonPrefix("aaab", "aaaabbaa"));
         }
+        [TestMethod]
+        public void TestMethod2()
+        {
+            Assert.AreEqual("", FindCommonPrefix("abcd", "efgh"));
+        }
         string FindCommonPrefix(string firstWord, string secondWord)
         {
             char[] prefix = new char[GetShortestLength(firstWord, secondWord)];
