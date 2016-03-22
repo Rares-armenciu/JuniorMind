@@ -9,30 +9,30 @@ namespace Panagram
         [TestMethod]
         public void TestForPanagram()
         {
-            Assert.AreEqual("YES", CheckIfPanagram("The quick brown fox jumps over the lazy dog"));
+            Assert.AreEqual(true, CheckIfPanagram("The quick brown fox jumps over the lazy dog"));
         }
         [TestMethod]
         public void TestForNotPanagram()
         {
-            Assert.AreEqual("NO", CheckIfPanagram("This is not a panagram."));
+            Assert.AreEqual(false, CheckIfPanagram("This is not a panagram."));
         }
-        string CheckIfPanagram(string panagram)
+        bool CheckIfPanagram(string panagram)
         {
-            char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k',
-                    'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-            int[] letterAppearance = new int[26];
-            for (int i = 0; i < 26; i++) letterAppearance[i] = 0;
+            bool[] letterAppearance = new bool[26];
             for(int i=0; i<panagram.Length; i++)
-                for(int j=0; j<alphabet.Length; j++)
-                    if (panagram[i] == alphabet[j])
-                        letterAppearance[j]++;
-            int counter = 0;
-            for (int i = 0; i < alphabet.Length; i++)
-                if (letterAppearance[i] == 0)
-                    counter++;
-            if (counter == 0)
-                return "YES";
-            return "NO";
+            {
+                char character = char.ToUpper(panagram[i]);
+                if(character>='A'&&character<='Z')
+                {
+                    int position = character - 65;
+                    letterAppearance[position] = true;
+                }
+
+            }
+            for (int i = 0; i < letterAppearance.Length; i++)
+                if (letterAppearance[i] == false)
+                    return false;
+            return true;
         }
     }
 }
