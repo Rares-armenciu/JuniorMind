@@ -22,15 +22,14 @@ namespace Panagram
             for(int i=0; i<panagram.Length; i++)
             {
                 char character = char.ToUpper(panagram[i]);
-                if(character>='A'&&character<='Z')
+                if(character >= 'A' && character <= 'Z')
                 {
-                    int position = character - 65;
+                    int position = character - 'A';
                     letterAppearance[position] = true;
                 }
-
             }
             for (int i = 0; i < letterAppearance.Length; i++)
-                if (letterAppearance[i] == false)
+                if (!letterAppearance[i])
                     return false;
             return true;
         }
