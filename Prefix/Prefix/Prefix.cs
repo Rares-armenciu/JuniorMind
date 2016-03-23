@@ -32,6 +32,8 @@ namespace Prefix
                     prefix[i] = firstWord[i];
                     counter++;
                 }
+                else
+                    break;
             }
             Array.Resize(ref prefix, counter);
             string finalPrefix = new string(prefix);
