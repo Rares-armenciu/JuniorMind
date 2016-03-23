@@ -19,7 +19,7 @@ namespace Prefix
         [TestMethod]
         public void TestMethod3()
         {
-            Assert.AreEqual()
+            Assert.AreEqual("", FindCommonPrefix("xaa", "yaa"));
         }
         string FindCommonPrefix(string firstWord, string secondWord)
         {
