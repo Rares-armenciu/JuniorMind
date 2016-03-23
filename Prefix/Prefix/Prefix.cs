@@ -23,21 +23,19 @@ namespace Prefix
         }
         string FindCommonPrefix(string firstWord, string secondWord)
         {
-            char[] prefix = new char[GetShortestLength(firstWord, secondWord)];
+            string prefix = string.Empty;
             int counter = 0;
             for(int i=0; i<GetShortestLength(firstWord, secondWord); i++)
             {
                 if (firstWord[i] == secondWord[i])
                 {
-                    prefix[i] = firstWord[i];
+                    prefix = prefix + firstWord[i];
                     counter++;
                 }
                 else
                     break;
             }
-            Array.Resize(ref prefix, counter);
-            string finalPrefix = new string(prefix);
-            return finalPrefix;
+            return prefix;
         }
 
         private int GetShortestLength(string firstWord, string secondWord)
