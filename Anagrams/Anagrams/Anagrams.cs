@@ -11,6 +11,16 @@ namespace Anagrams
         {
             Assert.AreEqual(1, CalculateNumberOfAnagrams("a"));
         }
+        [TestMethod]
+        public void TestForFourLetters()
+        {
+            Assert.AreEqual(24, CalculateNumberOfAnagrams("abcd"));
+        }
+        [TestMethod]
+        public void TestForEightLetters()
+        {
+            Assert.AreEqual(40320, CalculateNumberOfAnagrams("abcdefgh"));
+        }
         int CalculateNumberOfAnagrams(string word)
         {
             return recursiveAnagrams(word.Length);
