@@ -7,30 +7,42 @@ namespace Lottery
     public class Lottery
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestForFirstCategory()
         {
             Assert.AreEqual(0.00000007, CalculateLotteryWinChance(6, 6, 49));
         }
-        decimal CalculateLotteryWinChance(int hitNumbers, int chosenNumbers, int totalNumbers)
+        [TestMethod]
+        public void TestForSecondCategory()
         {
-            decimal winChance = Combinations(hitNumbers, chosenNumbers)*Combinations(chosenNumbers-hitNumbers, totalNumbers-chosenNumbers);
-            return winChance/Combinations(chosenNumbers, totalNumbers);
+            Assert.AreEqual(0.00001845, CalculateLotteryWinChance(5, 6, 49));
         }
-
-        private decimal Combinations(int k, int n)
+        [TestMethod]
+        public void TestForThirdCategory()
+        {
+            Assert.AreEqual(0.00096862, CalculateLotteryWinChance(4, 6, 49));
+        }
+        [TestMethod]
+        public void TestForFiveOutOfFourty()
+        {
+            Assert.AreEqual(0.00000152, CalculateLotteryWinChance(5, 5, 40));
+        }
+        double CalculateLotteryWinChance(int hitNumbers, int chosenNumbers, int totalNumbers)
+        {
+            double hitNumbersChance = Combinations(hitNumbers, chosenNumbers);
+            hitNumbersChance *= Combinations(chosenNumbers - hitNumbers, totalNumbers - chosenNumbers);
+            return Math.Round(hitNumbersChance/Combinations(chosenNumbers, totalNumbers), 8);
+        }
+        double Combinations(int k, int n)
         {
             if (k == 0 || k == n)
                 return 1;
-            return Factorial(n) / (Factorial(k) * Factorial(n - k));
+            return Factorial(n)/(Factorial(k)*Factorial(n- k));
         }
-
-        private int Factorial(int factorialNumber)
+        double Factorial(int factorialNumber)
         {
-            int factorialResult = 1;
-            if (factorialNumber == 0 || factorialNumber == 1)
-                return 1;
-            for (int i = 2; i < factorialNumber + 1; i++)
-                factorialResult *= factorialNumber;
+            double factorialResult = 1;
+            for (int i = 2; i <= factorialNumber; i++)
+                factorialResult *= i;
             return factorialResult;
         }
     }
