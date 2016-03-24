@@ -21,17 +21,35 @@ namespace Anagrams
         {
             Assert.AreEqual(40320, CalculateNumberOfAnagrams("abcdefgh"));
         }
+        [TestMethod]
+        public void TestForLetterAppearingMoreTimes()
+        {
+            Assert.AreEqual(3, CalculateNumberOfAnagrams("aab"));
+        }
+        [TestMethod]
+        public void TestForSameLetter()
+        {
+            Assert.AreEqual(1, CalculateNumberOfAnagrams("aaaa"));
+        }
         int CalculateNumberOfAnagrams(string word)
         {
-            return recursiveAnagrams(word.Length);
+            int counter = 1;
+            for(int i=0; i<word.Length; i++)
+                for(int j=i+1; j<word.Length; j++)
+                    if(word[i]==word[j])
+                    {
+                        counter++;
+                        i++;
+                    }
+            return Factorial(word.Length)/Factorial(counter);
         }
 
-        private int recursiveAnagrams(int length)
+        private int Factorial(int length)
         {
-            if (length == 1)
-                return 1;
-            else
-                return length * recursiveAnagrams(length - 1);
+            int result = 1;
+            for (int i = 2; i <= length; i++)
+                result *= i;
+            return result;
         }
     }
 }
