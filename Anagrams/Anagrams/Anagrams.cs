@@ -38,15 +38,12 @@ namespace Anagrams
         }
         int CalculateNumberOfAnagrams(string word)
         {
-            int counter = 1;
-            for(int i=0; i<word.Length; i++)
-                for(int j=i+1; j<word.Length; j++)
-                    if(word[i]==word[j])
-                    {
-                        counter++;
-                        i++;
-                    }
-            return Factorial(word.Length)/Factorial(counter);
+            int factorial = 1;
+            char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+            for (int i = 0; i < letters.Length; i++)
+                factorial *= Factorial(GetRepeatingLetter(letters[i], word));
+            return Factorial(word.Length)/factorial;
         }
 
         private int Factorial(int length)
@@ -55,6 +52,14 @@ namespace Anagrams
             for (int i = 2; i <= length; i++)
                 result *= i;
             return result;
+        }
+        int GetRepeatingLetter(char letterToCompare, string word)
+        {
+            int counter = 0;
+            for (int i = 0; i < word.Length; i++)
+                if (letterToCompare == word[i])
+                    counter++;
+            return counter;
         }
     }
 }
