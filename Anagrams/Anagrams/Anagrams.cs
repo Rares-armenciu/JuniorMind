@@ -31,6 +31,11 @@ namespace Anagrams
         {
             Assert.AreEqual(1, CalculateNumberOfAnagrams("aaaa"));
         }
+        [TestMethod]
+        public void TestForMoreRepeatingLetters()
+        {
+            Assert.AreEqual(6, CalculateNumberOfAnagrams("aabb"));
+        }
         int CalculateNumberOfAnagrams(string word)
         {
             int counter = 1;
