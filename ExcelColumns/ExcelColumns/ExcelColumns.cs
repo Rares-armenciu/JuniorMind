@@ -16,7 +16,16 @@ namespace ExcelColumns
         {
             Assert.AreEqual(27, GetNumberOfColumn("AA"));
         }
-
+        [TestMethod]
+        public void TestForBA()
+        {
+            Assert.AreEqual(53, GetNumberOfColumn("BA"));
+        }
+        [TestMethod]
+        public void TestForThreeLetters()
+        {
+            Assert.AreEqual(703, GetNumberOfColumn("AAA"));
+        }
         private int GetNumberOfColumn(string columnInLetters)
         {
             int finalResult = 0;
