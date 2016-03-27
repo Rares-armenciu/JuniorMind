@@ -39,10 +39,8 @@ namespace Anagrams
         int CalculateNumberOfAnagrams(string word)
         {
             int factorial = 1;
-            char[] letters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-                    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
-            for (int i = 0; i < letters.Length; i++)
-                factorial *= Factorial(GetRepeatingLetter(letters[i], word));
+            for (int i = 'a'; i<='z'; i++)
+                factorial *= Factorial(GetRepeatingLetter(i, word));
             return Factorial(word.Length)/factorial;
         }
 
@@ -53,7 +51,7 @@ namespace Anagrams
                 result *= i;
             return result;
         }
-        int GetRepeatingLetter(char letterToCompare, string word)
+        int GetRepeatingLetter(int letterToCompare, string word)
         {
             int counter = 0;
             for (int i = 0; i < word.Length; i++)
