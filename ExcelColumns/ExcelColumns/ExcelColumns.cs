@@ -4,11 +4,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ExcelColumns
 {
     [TestClass]
-    public class UnitTest1
+    public class ExcelColumns
     {
         [TestMethod]
         public void TestMethod1()
         {
+            Assert.AreEqual(1, GetNumberOfColumn("A"));
+        }
+
+        private int GetNumberOfColumn(string columnInLetters)
+        {
+            return 0;
         }
     }
 }
