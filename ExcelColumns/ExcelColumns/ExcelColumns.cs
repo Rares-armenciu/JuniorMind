@@ -14,7 +14,13 @@ namespace ExcelColumns
 
         private int GetNumberOfColumn(string columnInLetters)
         {
-            return 0;
+            int finalResult = 0;
+            for(int i=0; i<columnInLetters.Length; i++)
+            {
+                finalResult *= 10;
+                finalResult += columnInLetters[i] - 'A';
+            }
+            return finalResult+1;
         }
     }
 }
