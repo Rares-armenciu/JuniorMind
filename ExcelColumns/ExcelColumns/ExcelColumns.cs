@@ -7,18 +7,29 @@ namespace ExcelColumns
     public class ExcelColumns
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestForA()
         {
             Assert.AreEqual(1, GetNumberOfColumn("A"));
+        }
+        [TestMethod]
+        public void TestForAA()
+        {
+            Assert.AreEqual(27, GetNumberOfColumn("AA"));
         }
 
         private int GetNumberOfColumn(string columnInLetters)
         {
             int finalResult = 0;
-            for(int i=0; i<columnInLetters.Length; i++)
+            int i = 0;
+            while(i<columnInLetters.Length)
             {
-                finalResult *= 10;
+                if (i!=columnInLetters.Length-1)
+                {
+                    finalResult = (columnInLetters[i] - 'A' + 1) * 26;
+                    i++;
+                }
                 finalResult += columnInLetters[i] - 'A';
+                i++;
             }
             return finalResult+1;
         }
