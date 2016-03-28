@@ -34,25 +34,11 @@ namespace ExcelColumnsInverted
         string GetColumnLetters(int columnNumber)
         {
             string columnLetters = string.Empty;
-            if (columnNumber > 702)
+            while(columnNumber>0)
             {
-                columnLetters = columnLetters + GetLettersOfNumber(columnNumber / 702);
-                columnNumber %= 676;
+                columnLetters = columnLetters + GetLettersOfNumber(columnNumber);
+                columnNumber /= 26;
             }
-            if (columnNumber > 26 && columnNumber <= 702)
-            {
-                if (columnNumber % 26 == 0)
-                {
-                    columnLetters = columnLetters + GetLettersOfNumber((columnNumber - 1) / 26);
-                    columnNumber = 26;
-                }
-                else
-                {
-                    columnLetters = columnLetters + GetLettersOfNumber((columnNumber) / 26);
-                    columnNumber %= 26;
-                }
-            }
-            columnLetters = columnLetters + GetLettersOfNumber(columnNumber);
             return columnLetters;
         }
         char GetLettersOfNumber(int number)
