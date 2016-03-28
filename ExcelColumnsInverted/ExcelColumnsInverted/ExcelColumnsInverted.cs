@@ -13,7 +13,10 @@ namespace ExcelColumnsInverted
         }
         string GetColumnLetters(int columnNumber)
         {
-            return string.Empty;
+            string columnLetters = string.Empty;
+            if (columnNumber < 27)
+                columnLetters = columnLetters + (char)(columnNumber + 64);
+            return columnLetters;
         }
     }
 }
