@@ -21,6 +21,16 @@ namespace ExcelColumnsInverted
         {
             Assert.AreEqual("AAA", GetColumnLetters(703));
         }
+        [TestMethod]
+        public void SecondtestForTwoLetters()
+        {
+            Assert.AreEqual("ZZ", GetColumnLetters(702));
+        }
+        [TestMethod]
+        public void SecondTestForThreeLetters()
+        {
+            Assert.AreEqual("ABZ", GetColumnLetters(754));
+        }
         string GetColumnLetters(int columnNumber)
         {
             string columnLetters = string.Empty;
@@ -29,10 +39,18 @@ namespace ExcelColumnsInverted
                 columnLetters = columnLetters + GetLettersOfNumber(columnNumber / 702);
                 columnNumber %= 676;
             }
-            if (columnNumber > 26 && columnNumber < 702)
+            if (columnNumber > 26 && columnNumber <= 702)
             {
-                columnLetters = columnLetters + GetLettersOfNumber(columnNumber / 26);
-                columnNumber %= 26;
+                if (columnNumber % 26 == 0)
+                {
+                    columnLetters = columnLetters + GetLettersOfNumber((columnNumber - 1) / 26);
+                    columnNumber = 26;
+                }
+                else
+                {
+                    columnLetters = columnLetters + GetLettersOfNumber((columnNumber) / 26);
+                    columnNumber %= 26;
+                }
             }
             columnLetters = columnLetters + GetLettersOfNumber(columnNumber);
             return columnLetters;
