@@ -31,6 +31,11 @@ namespace ExcelColumnsInverted
         {
             Assert.AreEqual("ABZ", GetColumnLetters(754));
         }
+        [TestMethod]
+        public void ThirdTestForThreeLetters()
+        {
+            Assert.AreEqual("ZZZ", GetColumnLetters(18278));
+        }
         string GetColumnLetters(int columnNumber)
         {
             string columnLetters = string.Empty;
