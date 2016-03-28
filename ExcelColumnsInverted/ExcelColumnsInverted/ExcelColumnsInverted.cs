@@ -7,8 +7,13 @@ namespace ExcelColumnsInverted
     public class ExcelColumnsInverted
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TestForNumberOne()
         {
+            Assert.AreEqual("A", GetColumnLetters(1));
+        }
+        string GetColumnLetters(int columnNumber)
+        {
+            return string.Empty;
         }
     }
 }
