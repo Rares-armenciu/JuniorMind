@@ -36,6 +36,7 @@ namespace ExcelColumnsInverted
             string columnLetters = string.Empty;
             while(columnNumber>0)
             {
+                columnNumber--;
                 columnLetters = columnLetters + GetLettersOfNumber(columnNumber%26);
                 columnNumber /= 26;
             }
@@ -43,7 +44,7 @@ namespace ExcelColumnsInverted
         }
         char GetLettersOfNumber(int number)
         {
-            return (char)(number + 64);
+            return (char)(number + 'A');
         }
     }
 }
