@@ -72,6 +72,11 @@ namespace BinaryOperations
         {
             Assert.AreEqual(true, (LessThan(ConvertToBinary(1), ConvertToBinary(7)) | LessThan(ConvertToBinary(7), ConvertToBinary(1))));
         }
+        [TestMethod]
+        public void ThreePlusFour()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4)));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -181,6 +186,25 @@ namespace BinaryOperations
                 if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
                     return (AddZeroes(firstNumber, i) < AddZeroes(secondNumber, i));
             return false;
+        }
+        byte[] Addition(byte[] firstNumber, byte[] secondNumber)
+        {
+            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
+            int reminder = 0;
+            for(int i=result.Length-1; i>=0; i--)
+            {
+                int sum = AddZeroes(firstNumber, i) + AddZeroes(secondNumber, i) + reminder;
+                result[i] = (byte)(sum % 2);
+                reminder = sum / 2;
+            }
+            if(reminder!=0)
+            {
+                result = ReverseBits(result);
+                Array.Resize(ref result, 1);
+                result[result.Length - 1] = (byte)reminder;
+                result = ReverseBits(result);
+            }
+            return result;
         }
     }
 }
