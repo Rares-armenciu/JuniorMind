@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace BinaryOperations
@@ -15,6 +16,21 @@ namespace BinaryOperations
         public void ConversionForHigherNumber()
         {
             CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 1 }, ConvertToBinary(15));
+        }
+        [TestMethod]
+        public void TestForANDOperand()
+        {
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 1 }, ANDOperation(ConvertToBinary(1), ConvertToBinary(7)));
+        }
+        [TestMethod]
+        public void TestForOROperand()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, OROperation(ConvertToBinary(1), ConvertToBinary(7)));
+        }
+        [TestMethod]
+        public void TestForXOROperand()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, XOROperation(ConvertToBinary(1), ConvertToBinary(7)));
         }
         byte[] ConvertToBinary(int decimalNumber)
         {
@@ -38,5 +54,6 @@ namespace BinaryOperations
             }
             return reversedNumber;
         }
+        
     }
 }
