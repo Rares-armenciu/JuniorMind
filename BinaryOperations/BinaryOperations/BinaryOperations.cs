@@ -54,6 +54,55 @@ namespace BinaryOperations
             }
             return reversedNumber;
         }
-        
+        byte[] ANDOperation(byte[] firstNumber, byte[] secondNumber)
+        {
+            return LogicOperations(firstNumber, secondNumber, "AND");
+        }
+        byte[] OROperation(byte[] firstNumber, byte[] secondNumber)
+        {
+            return LogicOperations(firstNumber, secondNumber, "OR");
+        }
+        byte[] XOROperation(byte[] firstNumber, byte[] secondNumber)
+        {
+            return LogicOperations(firstNumber, secondNumber, "XOR");
+        }
+
+        private byte[] LogicOperations(byte[] firstNumber, byte[] secondNumber, string operation)
+        {
+            firstNumber = ReverseBits(firstNumber);
+            secondNumber = ReverseBits(secondNumber);
+            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
+            for (int i = 0; i<result.Length; i++)
+            {
+                switch (operation)
+                {
+                    case "AND":
+                        if (AddZeroes(firstNumber, i) == AddZeroes(secondNumber, i) && AddZeroes(firstNumber, i) == 1)
+                            result[i] = 1;
+                        else
+                            result[i] = 0;
+                        break;
+                    case "OR":
+                        if (AddZeroes(firstNumber, i) == 1 || AddZeroes(secondNumber, i) == 1)
+                            result[i] = 1;
+                        else
+                            result[i] = 0;
+                        break;
+                    case "XOR":
+                        if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
+                            result[i] = 1;
+                        else
+                            result[i] = 0;
+                        break;
+                }
+            }
+            return ReverseBits(result);
+        }
+        byte AddZeroes(byte[] number, int position)
+        {
+            if (position > (number.Length - 1))
+                return 0;
+            return number[position];
+        }
     }
 }
