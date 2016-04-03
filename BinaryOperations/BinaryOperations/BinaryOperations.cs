@@ -47,6 +47,31 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, Shifting(ConvertToBinary(7), "Left"));
         }
+        [TestMethod]
+        public void OneIsLessThatSeven()
+        {
+            Assert.AreEqual(true, LessThan(ConvertToBinary(1), ConvertToBinary(7)));
+        }
+        [TestMethod]
+        public void SevenIsNotLessThanOne()
+        {
+            Assert.AreEqual(false, LessThan(ConvertToBinary(7), ConvertToBinary(1)));
+        }
+        [TestMethod]
+        public void SevenIsGreaterThanOne()
+        {
+            Assert.AreEqual(true, LessThan(ConvertToBinary(1), ConvertToBinary(7)));
+        }
+        [TestMethod]
+        public void SevenIsEqualToSeven()
+        {
+            Assert.AreEqual(false, (LessThan(ConvertToBinary(7), ConvertToBinary(7)) | LessThan(ConvertToBinary(7), ConvertToBinary(7))));
+        }
+        [TestMethod]
+        public void OneIsNotEqualToSeven()
+        {
+            Assert.AreEqual(true, (LessThan(ConvertToBinary(1), ConvertToBinary(7)) | LessThan(ConvertToBinary(7), ConvertToBinary(1))));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -149,6 +174,13 @@ namespace BinaryOperations
                     break;
             }
             return numberToShift;
+        }
+        bool LessThan(byte[] firstNumber, byte[] secondNumber)
+        {
+            for (int i = 0; i < Math.Max(firstNumber.Length, secondNumber.Length); i++)
+                if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
+                    return (AddZeroes(firstNumber, i) < AddZeroes(secondNumber, i));
+            return false;
         }
     }
 }
