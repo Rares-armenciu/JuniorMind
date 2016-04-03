@@ -37,6 +37,16 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(new byte[] { 0, 0, 0 }, NOTOperation(ConvertToBinary(7)));
         }
+        [TestMethod]
+        public void TestForRightHandShift()
+        {
+            CollectionAssert.AreEqual(new byte[] { 0, 1, 1 }, Shifting(ConvertToBinary(7), "Right"));
+        }
+        [TestMethod]
+        public void TestForLeftHandShift()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, Shifting(ConvertToBinary(7), "Left"));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -107,6 +117,23 @@ namespace BinaryOperations
                     negatedNumber[i] = 1;
             }
             return negatedNumber;
+        }
+        byte[] Shifting(byte[] numberToShift, string shiftDirection)
+        {
+            switch (shiftDirection)
+            {
+                case "Right":
+                    for (int i = numberToShift.Length - 1; i > 0; i--)
+                        numberToShift[i] = numberToShift[i - 1];
+                    numberToShift[0] = 0;
+                    break;
+                case "Left":
+                    for (int i = 0; i < numberToShift.Length - 1; i++)
+                        numberToShift[i] = numberToShift[i + 1];
+                    numberToShift[numberToShift.Length - 1] = 0;
+                    break;
+            }
+            return numberToShift;
         }
     }
 }
