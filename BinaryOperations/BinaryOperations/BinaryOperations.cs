@@ -69,36 +69,51 @@ namespace BinaryOperations
             }
             return reversedNumber;
         }
-        private byte[] LogicOperations(byte[] firstNumber, byte[] secondNumber, string operation)
+        byte[] LogicOperations(byte[] firstNumber, byte[] secondNumber, string operation)
         {
-            firstNumber = ReverseBits(firstNumber);
-            secondNumber = ReverseBits(secondNumber);
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             for (int i = 0; i<result.Length; i++)
             {
-                switch (operation)
-                {
-                    case "AND":
-                        if (AddZeroes(firstNumber, i) == AddZeroes(secondNumber, i) && AddZeroes(firstNumber, i) == 1)
-                            result[i] = 1;
-                        else
-                            result[i] = 0;
-                        break;
-                    case "OR":
-                        if (AddZeroes(firstNumber, i) == 1 || AddZeroes(secondNumber, i) == 1)
-                            result[i] = 1;
-                        else
-                            result[i] = 0;
-                        break;
-                    case "XOR":
-                        if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
-                            result[i] = 1;
-                        else
-                            result[i] = 0;
-                        break;
-                }
+                byte firstNumberByte = AddZeroes(firstNumber, i);
+                byte secondNumberByte = AddZeroes(secondNumber, i);
+                result[i] = LogicOperations2(firstNumberByte, secondNumberByte, operation);
+    
             }
             return ReverseBits(result);
+        }
+
+        byte Xor(byte firstNumberByte, byte secondNumberByte)
+        {
+            if (firstNumberByte != secondNumberByte)
+                return 1;
+            return 0;
+        }
+
+        byte Or(byte firstNumberByte, byte secondNumberByte)
+        {
+            if (firstNumberByte == 1 || secondNumberByte == 1)
+                return 1;
+            return 0;
+        }
+
+        byte And(byte firstNumberByte, byte secondNumberByte)
+        {
+            if (firstNumberByte == secondNumberByte && firstNumberByte == 1)
+                return 1;
+            return 0;
+        }
+        byte LogicOperations2(byte firstNumber, byte secondNumber, string operation)
+        {
+            switch (operation)
+            {
+                case "AND":
+                    return And(firstNumber, secondNumber);
+                case "OR":
+                    return Or(firstNumber, secondNumber);
+                case "XOR":
+                    return Xor(firstNumber, secondNumber);
+            }
+            return 0;
         }
         byte AddZeroes(byte[] number, int position)
         {
