@@ -20,17 +20,17 @@ namespace BinaryOperations
         [TestMethod]
         public void TestForANDOperand()
         {
-            CollectionAssert.AreEqual(new byte[] { 0, 0, 1 }, ANDOperation(ConvertToBinary(1), ConvertToBinary(7)));
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 1 }, LogicOperations(ConvertToBinary(1), ConvertToBinary(7), "AND"));
         }
         [TestMethod]
         public void TestForOROperand()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, OROperation(ConvertToBinary(1), ConvertToBinary(7)));
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1 }, LogicOperations(ConvertToBinary(1), ConvertToBinary(7), "OR"));
         }
         [TestMethod]
         public void TestForXOROperand()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, XOROperation(ConvertToBinary(1), ConvertToBinary(7)));
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, LogicOperations(ConvertToBinary(1), ConvertToBinary(7), "XOR"));
         }
         [TestMethod]
         public void TestForNotOperand()
@@ -58,18 +58,6 @@ namespace BinaryOperations
                 reversedNumber[i] = numberToReverse[numberToReverse.Length - i - 1];
             }
             return reversedNumber;
-        }
-        byte[] ANDOperation(byte[] firstNumber, byte[] secondNumber)
-        {
-            return LogicOperations(firstNumber, secondNumber, "AND");
-        }
-        byte[] OROperation(byte[] firstNumber, byte[] secondNumber)
-        {
-            return LogicOperations(firstNumber, secondNumber, "OR");
-        }
-        byte[] XOROperation(byte[] firstNumber, byte[] secondNumber)
-        {
-            return LogicOperations(firstNumber, secondNumber, "XOR");
         }
         private byte[] LogicOperations(byte[] firstNumber, byte[] secondNumber, string operation)
         {
