@@ -11,7 +11,11 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(new byte[] { 1, 0}, ConvertToBinary(2));
         }
-
+        [TestMethod]
+        public void ConversionForHigherNumber()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 1, 1 }, ConvertToBinary(15));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
