@@ -32,6 +32,11 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(new byte[] { 1, 1, 0 }, XOROperation(ConvertToBinary(1), ConvertToBinary(7)));
         }
+        [TestMethod]
+        public void TestForNotOperand()
+        {
+            CollectionAssert.AreEqual(new byte[] { 0, 0, 0 }, NOTOperation(ConvertToBinary(7)));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -66,7 +71,6 @@ namespace BinaryOperations
         {
             return LogicOperations(firstNumber, secondNumber, "XOR");
         }
-
         private byte[] LogicOperations(byte[] firstNumber, byte[] secondNumber, string operation)
         {
             firstNumber = ReverseBits(firstNumber);
@@ -103,6 +107,18 @@ namespace BinaryOperations
             if (position > (number.Length - 1))
                 return 0;
             return number[position];
+        }
+        byte[] NOTOperation(byte[] numberToNegate)
+        {
+            byte[] negatedNumber = new byte[numberToNegate.Length];
+            for(int i=0; i<numberToNegate.Length; i++)
+            {
+                if (numberToNegate[i] == 1)
+                    negatedNumber[i] = 0;
+                else
+                    negatedNumber[i] = 1;
+            }
+            return negatedNumber;
         }
     }
 }
