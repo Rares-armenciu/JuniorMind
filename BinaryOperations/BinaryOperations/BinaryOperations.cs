@@ -77,6 +77,21 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4)));
         }
+        [TestMethod]
+        public void ThreePlusFourteen()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(3 + 14), Addition(ConvertToBinary(3), ConvertToBinary(14)));
+        }
+        [TestMethod]
+        public void EightMinusSeven()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(8 - 7), Substraction(ConvertToBinary(8), ConvertToBinary(7)));
+        }
+        [TestMethod]
+        public void SeventeenMinusTen()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(17 - 10), Substraction(ConvertToBinary(17), ConvertToBinary(10)));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -106,33 +121,29 @@ namespace BinaryOperations
             {
                 byte firstNumberByte = AddZeroes(firstNumber, i);
                 byte secondNumberByte = AddZeroes(secondNumber, i);
-                result[i] = LogicOperations2(firstNumberByte, secondNumberByte, operation);
-    
+                result[i] = LogicOperations(firstNumberByte, secondNumberByte, operation);
             }
             return ReverseBits(result);
         }
-
         byte Xor(byte firstNumberByte, byte secondNumberByte)
         {
             if (firstNumberByte != secondNumberByte)
                 return 1;
             return 0;
         }
-
         byte Or(byte firstNumberByte, byte secondNumberByte)
         {
             if (firstNumberByte == 1 || secondNumberByte == 1)
                 return 1;
             return 0;
         }
-
         byte And(byte firstNumberByte, byte secondNumberByte)
         {
             if (firstNumberByte == secondNumberByte && firstNumberByte == 1)
                 return 1;
             return 0;
         }
-        byte LogicOperations2(byte firstNumber, byte secondNumber, string operation)
+        byte LogicOperations(byte firstNumber, byte secondNumber, string operation)
         {
             switch (operation)
             {
@@ -147,6 +158,7 @@ namespace BinaryOperations
         }
         byte AddZeroes(byte[] number, int position)
         {
+            number = ReverseBits(number);
             if (position > (number.Length - 1))
                 return 0;
             return number[position];
@@ -191,7 +203,7 @@ namespace BinaryOperations
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             int reminder = 0;
-            for(int i=result.Length-1; i>=0; i--)
+            for(int i=0; i<result.Length; i++)
             {
                 int sum = AddZeroes(firstNumber, i) + AddZeroes(secondNumber, i) + reminder;
                 result[i] = (byte)(sum % 2);
@@ -199,12 +211,37 @@ namespace BinaryOperations
             }
             if(reminder!=0)
             {
-                result = ReverseBits(result);
                 Array.Resize(ref result, 1);
                 result[result.Length - 1] = (byte)reminder;
-                result = ReverseBits(result);
             }
-            return result;
+            return ReverseBits(result);
+        }
+        byte[] Substraction(byte[] firstNumber, byte[] secondNumber)
+        {
+            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
+            int reminder = 0;
+            int counter = 0;
+            for(int i=0; i<result.Length; i++)
+            {
+                int difference = AddZeroes(firstNumber, i) - AddZeroes(secondNumber, i) - reminder;
+                if(difference<0)
+                {
+                    difference += 2;
+                    reminder = 1;
+                }
+                result[i] = (byte)difference;
+                if (result[i] == 0)
+                    counter++;
+                else counter = 0;
+            }
+            if (counter != 0)
+            {
+                byte[] newResult = new byte[result.Length - counter];
+                for (int i = 0; i < newResult.Length; i++)
+                    newResult[i] = result[i];
+                return ReverseBits(newResult);
+            }
+            return ReverseBits(result);
         }
     }
 }
