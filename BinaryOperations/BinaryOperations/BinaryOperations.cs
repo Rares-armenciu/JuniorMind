@@ -105,12 +105,17 @@ namespace BinaryOperations
         [TestMethod]
         public void TwoTimesOne()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0}, Multiplication(ConvertToBinary(2), ConvertToBinary(1), 2));
+            CollectionAssert.AreEqual(new byte[] { 1, 0}, Multiplication(ConvertToBinary(2), ConvertToBinary(1)));
         }
         [TestMethod]
         public void TenTimesFive()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(10*5), Multiplication(ConvertToBinary(10), ConvertToBinary(5), 2));
+            CollectionAssert.AreEqual(ConvertToBinary(10*5), Multiplication(ConvertToBinary(10), ConvertToBinary(5)));
+        }
+        [TestMethod]
+        public void NineOverThree()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(9/3), Division(ConvertToBinary(9), ConvertToBinary(3)));
         }
         byte[] ConvertToBinary(int decimalNumber)
         {
@@ -214,6 +219,10 @@ namespace BinaryOperations
         }
         bool LessThan(byte[] firstNumber, byte[] secondNumber)
         {
+            if (firstNumber.Length > secondNumber.Length)
+                return false;
+            if (firstNumber.Length < secondNumber.Length)
+                return true;
             for (int i = 0; i < Math.Max(firstNumber.Length, secondNumber.Length); i++)
                 if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
                     return (AddZeroes(firstNumber, i) < AddZeroes(secondNumber, i));
@@ -270,7 +279,7 @@ namespace BinaryOperations
             }
             return ReverseBits(result);
         }
-        byte[] Multiplication(byte[] firstNumber, byte[] secondNumber, int numberBase)
+        byte[] Multiplication(byte[] firstNumber, byte[] secondNumber)
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length) + 5];
             while (NotEqual(secondNumber, ConvertToBinary(0)))
@@ -278,8 +287,14 @@ namespace BinaryOperations
                 result = Addition(result, firstNumber);
                 secondNumber = Substraction(secondNumber, ConvertToBinary(1));
             }
+            result = DeleteZeroes(result);
+            return result;
+        }
+
+        private byte[] DeleteZeroes(byte[] result)
+        {
             int zeroCounter = 0;
-            for(int i=0; i<result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
                 if (result[i] == 0)
                     zeroCounter++;
@@ -288,10 +303,38 @@ namespace BinaryOperations
             if (zeroCounter != 0)
             {
                 result = ReverseBits(result);
-                Array.Resize(ref result, result.Length-zeroCounter);
+                Array.Resize(ref result, result.Length - zeroCounter);
                 result = ReverseBits(result);
             }
+
             return result;
+        }
+
+        byte[] Division(byte[] firstNumber, byte[] secondNumber)
+        {
+            byte[] result = new byte[firstNumber.Length];
+            int counter = 0;
+            byte[] auxiliaryNumber = new byte[0];
+            for(int i=0; i< result.Length; i++)
+            {
+                Array.Resize(ref auxiliaryNumber, auxiliaryNumber.Length+1);
+                auxiliaryNumber[auxiliaryNumber.Length-1] = firstNumber[i];
+                if (LessThan(auxiliaryNumber, secondNumber))
+                    result[i] = (byte)0;
+                else
+                {
+                    while (LessThan(secondNumber, auxiliaryNumber) || !NotEqual(secondNumber, auxiliaryNumber))
+                    {
+                        auxiliaryNumber = Substraction(auxiliaryNumber, secondNumber);
+                        counter++;
+                    }
+                    result[i] = (byte)counter;
+                    counter = 0;
+                    //auxiliaryNumber = Substraction(auxiliaryNumber, Multiplication(secondNumber, ConvertToBinary(counter)));
+                }
+                
+            }
+            return DeleteZeroes(result);
         }
     }
 }
