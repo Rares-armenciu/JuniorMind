@@ -80,7 +80,7 @@ namespace BinaryOperations
         [TestMethod]
         public void FifteenPlusTen()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(15 + 10), Addition(ConvertToBinary(15), ConvertToBinary(5)));
+            CollectionAssert.AreEqual(new byte[] { 1, 1, 0, 0, 1 }, Addition(ConvertToBinary(15), ConvertToBinary(10)));
         }
         [TestMethod]
         public void EightMinusSeven()
@@ -95,7 +95,7 @@ namespace BinaryOperations
         [TestMethod]
         public void TwentyMinusTwo()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(20 - 2), Substraction(ConvertToBinary(20), ConvertToBinary(2)));
+            CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 1, 0 }, Substraction(ConvertToBinary(20), ConvertToBinary(2)));
         }
         [TestMethod]
         public void TwoPlusZero()
@@ -250,11 +250,12 @@ namespace BinaryOperations
             for(int i=0; i<result.Length; i++)
             {
                 int difference = AddZeroes(firstNumber, i) - AddZeroes(secondNumber, i) - reminder;
-                if(difference<0)
+                if (difference < 0)
                 {
                     difference += 2;
                     reminder = 1;
                 }
+                else reminder = 0;
                 result[i] = (byte)difference;
                 if (result[i] == 0)
                     counter++;
