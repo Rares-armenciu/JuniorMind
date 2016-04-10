@@ -78,11 +78,6 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4)));
         }
         [TestMethod]
-        public void ThreePlusFourteen()
-        {
-            CollectionAssert.AreEqual(ConvertToBinary(3 + 14), Addition(ConvertToBinary(3), ConvertToBinary(14)));
-        }
-        [TestMethod]
         public void EightMinusSeven()
         {
             CollectionAssert.AreEqual(ConvertToBinary(8 - 7), Substraction(ConvertToBinary(8), ConvertToBinary(7)));
@@ -91,6 +86,21 @@ namespace BinaryOperations
         public void SeventeenMinusTen()
         {
             CollectionAssert.AreEqual(ConvertToBinary(17 - 10), Substraction(ConvertToBinary(17), ConvertToBinary(10)));
+        }
+        /*[TestMethod]
+        public void TwentyMinusTwo()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(20 - 2), Substraction(ConvertToBinary(20), ConvertToBinary(2)));
+        }*/
+        [TestMethod]
+        public void ThreeTimesTwo()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(2*1), Multiplication(ConvertToBinary(2), ConvertToBinary(1), 2));
+        }
+        [TestMethod]
+        public void TenTimesFive()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(10*5), Multiplication(ConvertToBinary(10), ConvertToBinary(5), 2));
         }
         byte[] ConvertToBinary(int decimalNumber)
         {
@@ -159,8 +169,8 @@ namespace BinaryOperations
         byte AddZeroes(byte[] number, int position)
         {
             number = ReverseBits(number);
-            if (position > (number.Length - 1))
-                return 0;
+            if (position >= (number.Length))
+                return (byte)0;
             return number[position];
         }
         byte[] NOTOperation(byte[] numberToNegate)
@@ -209,7 +219,7 @@ namespace BinaryOperations
                 result[i] = (byte)(sum % 2);
                 reminder = sum / 2;
             }
-            if(reminder!=0)
+            while(reminder!=0)
             {
                 Array.Resize(ref result, 1);
                 result[result.Length - 1] = (byte)reminder;
@@ -242,6 +252,10 @@ namespace BinaryOperations
                 return ReverseBits(newResult);
             }
             return ReverseBits(result);
+        }
+        byte[] Multiplication(byte[] firstNumber, byte[] secondNumber, int numberBase)
+        {
+            return new byte[] { 0 };
         }
     }
 }
