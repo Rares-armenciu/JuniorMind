@@ -78,6 +78,11 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4)));
         }
         [TestMethod]
+        public void FifteenPlusTen()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(15 + 10), Addition(ConvertToBinary(15), ConvertToBinary(5)));
+        }
+        [TestMethod]
         public void EightMinusSeven()
         {
             CollectionAssert.AreEqual(ConvertToBinary(8 - 7), Substraction(ConvertToBinary(8), ConvertToBinary(7)));
@@ -87,15 +92,20 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(ConvertToBinary(17 - 10), Substraction(ConvertToBinary(17), ConvertToBinary(10)));
         }
-        /*[TestMethod]
+        [TestMethod]
         public void TwentyMinusTwo()
         {
             CollectionAssert.AreEqual(ConvertToBinary(20 - 2), Substraction(ConvertToBinary(20), ConvertToBinary(2)));
-        }*/
+        }
         [TestMethod]
-        public void ThreeTimesTwo()
+        public void TwoPlusZero()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(2*1), Multiplication(ConvertToBinary(2), ConvertToBinary(1), 2));
+            CollectionAssert.AreEqual(new byte[] { 1, 0 }, Addition(ConvertToBinary(0), ConvertToBinary(2)));
+        }
+        [TestMethod]
+        public void TwoTimesOne()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 0}, Multiplication(ConvertToBinary(2), ConvertToBinary(1), 2));
         }
         [TestMethod]
         public void TenTimesFive()
@@ -209,6 +219,12 @@ namespace BinaryOperations
                     return (AddZeroes(firstNumber, i) < AddZeroes(secondNumber, i));
             return false;
         }
+        bool NotEqual(byte[] firstNumber, byte[] secondNumber)
+        {
+            if (LessThan(firstNumber, secondNumber) == true || LessThan(secondNumber, firstNumber) == true)
+                return true;
+            return false;
+        }
         byte[] Addition(byte[] firstNumber, byte[] secondNumber)
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
@@ -219,9 +235,9 @@ namespace BinaryOperations
                 result[i] = (byte)(sum % 2);
                 reminder = sum / 2;
             }
-            while(reminder!=0)
+            if(reminder!=0)
             {
-                Array.Resize(ref result, 1);
+                Array.Resize(ref result, result.Length+1);
                 result[result.Length - 1] = (byte)reminder;
             }
             return ReverseBits(result);
@@ -255,7 +271,26 @@ namespace BinaryOperations
         }
         byte[] Multiplication(byte[] firstNumber, byte[] secondNumber, int numberBase)
         {
-            return new byte[] { 0 };
+            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length) + 5];
+            while (NotEqual(secondNumber, ConvertToBinary(0)))
+            {
+                result = Addition(result, firstNumber);
+                secondNumber = Substraction(secondNumber, ConvertToBinary(1));
+            }
+            int zeroCounter = 0;
+            for(int i=0; i<result.Length; i++)
+            {
+                if (result[i] == 0)
+                    zeroCounter++;
+                else break;
+            }
+            if (zeroCounter != 0)
+            {
+                result = ReverseBits(result);
+                Array.Resize(ref result, result.Length-zeroCounter);
+                result = ReverseBits(result);
+            }
+            return result;
         }
     }
 }
