@@ -256,11 +256,10 @@ namespace BinaryOperations
             return 0;
         }
         byte AddZeroes(byte[] number, int position)
-        {
-            number = ReverseBits(number);
+        {;
             if (position >= (number.Length))
                 return (byte)0;
-            return number[position];
+            return number[number.Length-position-1];
         }
         byte[] NOTOperation(byte[] numberToNegate)
         {
@@ -293,10 +292,6 @@ namespace BinaryOperations
         }
         bool LessThan(byte[] firstNumber, byte[] secondNumber)
         {
-            if (firstNumber.Length > secondNumber.Length)
-                return false;
-            if (firstNumber.Length < secondNumber.Length)
-                return true;
             for (int i = 0; i < Math.Max(firstNumber.Length, secondNumber.Length); i++)
                 if (AddZeroes(firstNumber, i) != AddZeroes(secondNumber, i))
                     return (AddZeroes(firstNumber, i) < AddZeroes(secondNumber, i));
@@ -304,9 +299,7 @@ namespace BinaryOperations
         }
         bool NotEqual(byte[] firstNumber, byte[] secondNumber)
         {
-            if (LessThan(firstNumber, secondNumber) == true || LessThan(secondNumber, firstNumber) == true)
-                return true;
-            return false;
+            return (LessThan(firstNumber, secondNumber) || LessThan(secondNumber, firstNumber));
         }
         byte[] Addition(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
