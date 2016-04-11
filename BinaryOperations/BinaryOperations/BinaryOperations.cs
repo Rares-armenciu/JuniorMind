@@ -100,17 +100,17 @@ namespace BinaryOperations
         [TestMethod]
         public void TenTimesFive()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(10*5), Multiplication(ConvertToBinary(10), ConvertToBinary(5)));
+            CollectionAssert.AreEqual(ConvertToBinary(10*5), Multiplication(ConvertToBinary(10), ConvertToBinary(5), 2));
         }
         [TestMethod]
         public void NineOverThree()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(9/3), Division(ConvertToBinary(9), ConvertToBinary(3)));
+            CollectionAssert.AreEqual(ConvertToBinary(9/3), Division(ConvertToBinary(9), ConvertToBinary(3), 2));
         }
         [TestMethod]
         public void TwentyOverTwo()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(20 / 2), Division(ConvertToBinary(20), ConvertToBinary(2)));
+            CollectionAssert.AreEqual(ConvertToBinary(20 / 2), Division(ConvertToBinary(20), ConvertToBinary(2), 2));
         }
 
         [TestMethod]
@@ -147,6 +147,26 @@ namespace BinaryOperations
         public void FourtyMinusFourteenInBaseEight()
         {
             CollectionAssert.AreEqual(ConvertToAnyBase(40 - 14, 8), Substraction(ConvertToAnyBase(40, 8), ConvertToAnyBase(14, 8), 8));
+        }
+        [TestMethod]
+        public void EighteenTimesTenInBaseTwelve()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(18 * 10, 12), Multiplication(ConvertToAnyBase(18, 12), ConvertToAnyBase(10, 12), 12));
+        }
+        [TestMethod]
+        public void MultiplicationInHighBase()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(224 * 132, 200), Multiplication(ConvertToAnyBase(224, 200), ConvertToAnyBase(132, 200), 200));
+        }
+        [TestMethod]
+        public void DivisionInLowerBase()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(72 / 8, 9), Division(ConvertToAnyBase(72, 9), ConvertToAnyBase(8, 9), 9));
+        }
+        [TestMethod]
+        public void DivisionInHigherBase()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(2048 / 128, 200), Division(ConvertToAnyBase(2048, 200), ConvertToAnyBase(128, 200), 200));
         }
         byte[] ConvertToBinary(int decimalNumber)
         {
@@ -323,25 +343,25 @@ namespace BinaryOperations
             }
             return ReverseBits(result);
         }
-        byte[] Multiplication(byte[] firstNumber, byte[] secondNumber)
+        byte[] Multiplication(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             while (NotEqual(secondNumber, ConvertToBinary(0)))
             {
-                result = Addition(result, firstNumber, 2);
-                secondNumber = Substraction(secondNumber, ConvertToBinary(1), 2);
+                result = Addition(result, firstNumber, conversionBase);
+                secondNumber = Substraction(secondNumber, ConvertToBinary(1), conversionBase);
             }
             return result;
         }
-        byte[] Division(byte[] firstNumber, byte[] secondNumber)
+        byte[] Division(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
             int divisionCounter = 0;
             while (NotEqual(firstNumber, ConvertToBinary(0)))
             {
-                firstNumber = Substraction(firstNumber, secondNumber, 2);
+                firstNumber = Substraction(firstNumber, secondNumber, conversionBase);
                 divisionCounter++;
             }
-            return ConvertToBinary(divisionCounter);
+            return ConvertToAnyBase(divisionCounter, conversionBase);
         }
     }
 }
