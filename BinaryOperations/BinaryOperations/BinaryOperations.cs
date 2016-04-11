@@ -322,26 +322,13 @@ namespace BinaryOperations
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             int reminder = 0;
-            int counter = 0;
-            for(int i=0; i<result.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
-                int difference = AddZeroes(firstNumber, i) - AddZeroes(secondNumber, i) - reminder;
-                if (difference < 0)
-                {
-                    difference += conversionBase;
-                    reminder = 1;
-                }
-                else reminder = 0;
-                result[i] = (byte)difference;
-                if (result[i] == 0)
-                    counter++;
-                else counter = 0;
+                int difference = conversionBase + AddZeroes(firstNumber, i) - AddZeroes(secondNumber, i) - reminder;
+                result[i] = (byte)(difference % conversionBase);
+                reminder = difference < conversionBase ? 1 : 0;
             }
-            if (counter != 0)
-            {
-                Array.Resize(ref result, result.Length - counter);
-            }
-            return ReverseBits(result);
+            return ReverseBits(result = RemoveZeros(result));
         }
         byte[] Multiplication(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
@@ -371,6 +358,18 @@ namespace BinaryOperations
                 finalNumber = Multiplication(finalNumber, ConvertToAnyBase(i, conversionBase), conversionBase);
             }
             return finalNumber;
+        }
+        byte[] RemoveZeros(byte[] numberToRemove)
+        {
+            int counter = 0;
+            for(int i=numberToRemove.Length-1; i>=0; i--)
+            {
+                if (numberToRemove[i] == 0)
+                    counter++;
+                else break;
+            }
+            Array.Resize(ref numberToRemove, numberToRemove.Length - counter);
+            return numberToRemove;
         }
     }
 }
