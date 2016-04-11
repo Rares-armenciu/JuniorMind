@@ -75,27 +75,27 @@ namespace BinaryOperations
         [TestMethod]
         public void ThreePlusFour()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4)));
+            CollectionAssert.AreEqual(ConvertToBinary(3 + 4), Addition(ConvertToBinary(3), ConvertToBinary(4), 2));
         }
         [TestMethod]
         public void FifteenPlusTen()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(15+10), Addition(ConvertToBinary(15), ConvertToBinary(10)));
+            CollectionAssert.AreEqual(ConvertToBinary(15+10), Addition(ConvertToBinary(15), ConvertToBinary(10), 2));
         }
         [TestMethod]
         public void EightMinusSeven()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(8 - 7), Substraction(ConvertToBinary(8), ConvertToBinary(7)));
+            CollectionAssert.AreEqual(ConvertToBinary(8 - 7), Substraction(ConvertToBinary(8), ConvertToBinary(7), 2));
         }
         [TestMethod]
         public void SeventeenMinusTen()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(17 - 10), Substraction(ConvertToBinary(17), ConvertToBinary(10)));
+            CollectionAssert.AreEqual(ConvertToBinary(17 - 10), Substraction(ConvertToBinary(17), ConvertToBinary(10), 2));
         }
         [TestMethod]
         public void TwentyMinusTwo()
         {
-            CollectionAssert.AreEqual(ConvertToBinary(20-2), Substraction(ConvertToBinary(20), ConvertToBinary(2)));
+            CollectionAssert.AreEqual(ConvertToBinary(20-2), Substraction(ConvertToBinary(20), ConvertToBinary(2), 2));
         }
         [TestMethod]
         public void TenTimesFive()
@@ -122,6 +122,31 @@ namespace BinaryOperations
         public void ConversionToHighestBase()
         {
             CollectionAssert.AreEqual(new byte[] { 1, 255 }, ConvertToAnyBase(511, 256));
+        }
+        [TestMethod]
+        public void TwelveIsLessThanFifteenInBaseFour()
+        {
+            Assert.AreEqual(true, LessThan(ConvertToAnyBase(12, 4), ConvertToAnyBase(15, 4)));
+        }
+        [TestMethod]
+        public void TwentyIsNotLessThanTenInBaseEight()
+        {
+            Assert.AreEqual(false, LessThan(ConvertToAnyBase(20, 8), ConvertToAnyBase(10, 8)));
+        }
+        [TestMethod]
+        public void TwentyPlusFourteenInBaseFive()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(20 + 14, 5), Addition(ConvertToAnyBase(20, 5), ConvertToAnyBase(14, 5), 5));
+        }
+        [TestMethod]
+        public void AdditionInHigherBase()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(1256 + 475, 256), Addition(ConvertToAnyBase(1256, 256), ConvertToAnyBase(475, 256), 256));
+        }
+        [TestMethod]
+        public void FourtyMinusFourteenInBaseEight()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(40 - 14, 8), Substraction(ConvertToAnyBase(40, 8), ConvertToAnyBase(14, 8), 8));
         }
         byte[] ConvertToBinary(int decimalNumber)
         {
@@ -253,15 +278,15 @@ namespace BinaryOperations
                 return true;
             return false;
         }
-        byte[] Addition(byte[] firstNumber, byte[] secondNumber)
+        byte[] Addition(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             int reminder = 0;
             for(int i=0; i<result.Length; i++)
             {
                 int sum = AddZeroes(firstNumber, i) + AddZeroes(secondNumber, i) + reminder;
-                result[i] = (byte)(sum % 2);
-                reminder = sum / 2;
+                result[i] = (byte)(sum % conversionBase);
+                reminder = sum / conversionBase;
             }
             if(reminder!=0)
             {
@@ -270,7 +295,7 @@ namespace BinaryOperations
             }
             return ReverseBits(result);
         }
-        byte[] Substraction(byte[] firstNumber, byte[] secondNumber)
+        byte[] Substraction(byte[] firstNumber, byte[] secondNumber, int conversionBase)
         {
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             int reminder = 0;
@@ -280,7 +305,7 @@ namespace BinaryOperations
                 int difference = AddZeroes(firstNumber, i) - AddZeroes(secondNumber, i) - reminder;
                 if (difference < 0)
                 {
-                    difference += 2;
+                    difference += conversionBase;
                     reminder = 1;
                 }
                 else reminder = 0;
@@ -303,8 +328,8 @@ namespace BinaryOperations
             byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             while (NotEqual(secondNumber, ConvertToBinary(0)))
             {
-                result = Addition(result, firstNumber);
-                secondNumber = Substraction(secondNumber, ConvertToBinary(1));
+                result = Addition(result, firstNumber, 2);
+                secondNumber = Substraction(secondNumber, ConvertToBinary(1), 2);
             }
             return result;
         }
@@ -313,7 +338,7 @@ namespace BinaryOperations
             int divisionCounter = 0;
             while (NotEqual(firstNumber, ConvertToBinary(0)))
             {
-                firstNumber = Substraction(firstNumber, secondNumber);
+                firstNumber = Substraction(firstNumber, secondNumber, 2);
                 divisionCounter++;
             }
             return ConvertToBinary(divisionCounter);
