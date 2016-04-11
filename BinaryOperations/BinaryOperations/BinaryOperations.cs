@@ -339,10 +339,7 @@ namespace BinaryOperations
             }
             if (counter != 0)
             {
-                byte[] newResult = new byte[result.Length - counter];
-                for (int i = 0; i < newResult.Length; i++)
-                    newResult[i] = result[i];
-                return ReverseBits(newResult);
+                Array.Resize(ref result, result.Length - counter);
             }
             return ReverseBits(result);
         }
