@@ -80,7 +80,7 @@ namespace BinaryOperations
         [TestMethod]
         public void FifteenPlusTen()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 1, 0, 0, 1 }, Addition(ConvertToBinary(15), ConvertToBinary(10)));
+            CollectionAssert.AreEqual(ConvertToBinary(15+10), Addition(ConvertToBinary(15), ConvertToBinary(10)));
         }
         [TestMethod]
         public void EightMinusSeven()
@@ -95,17 +95,7 @@ namespace BinaryOperations
         [TestMethod]
         public void TwentyMinusTwo()
         {
-            CollectionAssert.AreEqual(new byte[] { 1, 0, 0, 1, 0 }, Substraction(ConvertToBinary(20), ConvertToBinary(2)));
-        }
-        [TestMethod]
-        public void TwoPlusZero()
-        {
-            CollectionAssert.AreEqual(new byte[] { 1, 0 }, Addition(ConvertToBinary(0), ConvertToBinary(2)));
-        }
-        [TestMethod]
-        public void TwoTimesOne()
-        {
-            CollectionAssert.AreEqual(new byte[] { 1, 0}, Multiplication(ConvertToBinary(2), ConvertToBinary(1)));
+            CollectionAssert.AreEqual(ConvertToBinary(20-2), Substraction(ConvertToBinary(20), ConvertToBinary(2)));
         }
         [TestMethod]
         public void TenTimesFive()
@@ -117,6 +107,13 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(ConvertToBinary(9/3), Division(ConvertToBinary(9), ConvertToBinary(3)));
         }
+        [TestMethod]
+        public void TwentyOverTwo()
+        {
+            CollectionAssert.AreEqual(ConvertToBinary(20 / 2), Division(ConvertToBinary(20), ConvertToBinary(2)));
+        }
+
+
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -281,60 +278,23 @@ namespace BinaryOperations
         }
         byte[] Multiplication(byte[] firstNumber, byte[] secondNumber)
         {
-            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length) + 5];
+            byte[] result = new byte[Math.Max(firstNumber.Length, secondNumber.Length)];
             while (NotEqual(secondNumber, ConvertToBinary(0)))
             {
                 result = Addition(result, firstNumber);
                 secondNumber = Substraction(secondNumber, ConvertToBinary(1));
             }
-            result = DeleteZeroes(result);
             return result;
         }
-
-        private byte[] DeleteZeroes(byte[] result)
-        {
-            int zeroCounter = 0;
-            for (int i = 0; i < result.Length; i++)
-            {
-                if (result[i] == 0)
-                    zeroCounter++;
-                else break;
-            }
-            if (zeroCounter != 0)
-            {
-                result = ReverseBits(result);
-                Array.Resize(ref result, result.Length - zeroCounter);
-                result = ReverseBits(result);
-            }
-
-            return result;
-        }
-
         byte[] Division(byte[] firstNumber, byte[] secondNumber)
         {
-            byte[] result = new byte[firstNumber.Length];
-            int counter = 0;
-            byte[] auxiliaryNumber = new byte[0];
-            for(int i=0; i< result.Length; i++)
+            int divisionCounter = 0;
+            while (NotEqual(firstNumber, ConvertToBinary(0)))
             {
-                Array.Resize(ref auxiliaryNumber, auxiliaryNumber.Length+1);
-                auxiliaryNumber[auxiliaryNumber.Length-1] = firstNumber[i];
-                if (LessThan(auxiliaryNumber, secondNumber))
-                    result[i] = (byte)0;
-                else
-                {
-                    while (LessThan(secondNumber, auxiliaryNumber) || !NotEqual(secondNumber, auxiliaryNumber))
-                    {
-                        auxiliaryNumber = Substraction(auxiliaryNumber, secondNumber);
-                        counter++;
-                    }
-                    result[i] = (byte)counter;
-                    counter = 0;
-                    //auxiliaryNumber = Substraction(auxiliaryNumber, Multiplication(secondNumber, ConvertToBinary(counter)));
-                }
-                
+                firstNumber = Substraction(firstNumber, secondNumber);
+                divisionCounter++;
             }
-            return DeleteZeroes(result);
+            return ConvertToBinary(divisionCounter);
         }
     }
 }
