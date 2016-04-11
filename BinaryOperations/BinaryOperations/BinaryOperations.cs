@@ -113,7 +113,16 @@ namespace BinaryOperations
             CollectionAssert.AreEqual(ConvertToBinary(20 / 2), Division(ConvertToBinary(20), ConvertToBinary(2)));
         }
 
-
+        [TestMethod]
+        public void ConversionIntoBaseSixteen()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 0 }, ConvertToAnyBase(16, 16));
+        }
+        [TestMethod]
+        public void ConversionToHighestBase()
+        {
+            CollectionAssert.AreEqual(new byte[] { 1, 255 }, ConvertToAnyBase(511, 256));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -126,6 +135,19 @@ namespace BinaryOperations
                 i++;
             }
             return ReverseBits(binaryNumber);
+        }
+        byte[] ConvertToAnyBase(double numberToConvert, int baseToConvert)
+        {
+            byte[] convertedNumber = new byte[0];
+            int i = 0;
+            while (numberToConvert > 0)
+            {
+                Array.Resize(ref convertedNumber, i + 1);
+                convertedNumber[i] = (byte)(numberToConvert % baseToConvert);
+                numberToConvert = (int)numberToConvert / baseToConvert;
+                i++;
+            }
+            return ReverseBits(convertedNumber);
         }
         byte[] ReverseBits(byte[] numberToReverse)
         {
