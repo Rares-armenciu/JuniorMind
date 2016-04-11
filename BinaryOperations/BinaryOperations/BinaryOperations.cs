@@ -168,6 +168,16 @@ namespace BinaryOperations
         {
             CollectionAssert.AreEqual(ConvertToAnyBase(2048 / 128, 200), Division(ConvertToAnyBase(2048, 200), ConvertToAnyBase(128, 200), 200));
         }
+        [TestMethod]
+        public void SixFactorial()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(720, 256), Factorial(6, 256));
+        }
+        [TestMethod]
+        public void FourtyNineFactorial()
+        {
+            CollectionAssert.AreEqual(ConvertToAnyBase(3628800, 256), Factorial(10, 256));
+        }
         byte[] ConvertToBinary(int decimalNumber)
         {
             byte[] binaryNumber = new byte[0];
@@ -362,6 +372,15 @@ namespace BinaryOperations
                 divisionCounter++;
             }
             return ConvertToAnyBase(divisionCounter, conversionBase);
+        }
+        byte[] Factorial(int numberToCalulate, int conversionBase)
+        {
+            byte[] finalNumber = ConvertToAnyBase(1, conversionBase);
+            for(int i=2; i<=numberToCalulate; i++)
+            {
+                finalNumber = Multiplication(finalNumber, ConvertToAnyBase(i, conversionBase), conversionBase);
+            }
+            return finalNumber;
         }
     }
 }
