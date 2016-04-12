@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{668BE558-B90B-4E46-BF44-974FE78F2790}</ProjectGuid>
+    <ProjectGuid>{4C67E38C-1D4A-47AD-8301-C012260C6FBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ShoppingCart</RootNamespace>
