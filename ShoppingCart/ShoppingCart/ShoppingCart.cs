@@ -6,8 +6,8 @@ namespace ShoppingCart
     public struct Product
     {
         public int numberOfProducts;
-        public double price;
-        public Product(int numberOfProducts, double price)
+        public int price;
+        public Product(int numberOfProducts, int price)
         {
             this.numberOfProducts = numberOfProducts;
             this.price = price;
@@ -18,7 +18,7 @@ namespace ShoppingCart
     public class ShoppingCart
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TotalPriceToPay()
         {
             Product a = new Product(1, 5);
             Product b = new Product(3, 10);
@@ -28,7 +28,8 @@ namespace ShoppingCart
 
         private int CalculateShoppingCartPrice(Product a, Product b, Product c)
         {
-            return 0;
+            int totalPrice = a.numberOfProducts * a.price + b.numberOfProducts * b.price + c.numberOfProducts * c.price;
+            return totalPrice;
         }
     }
 }
