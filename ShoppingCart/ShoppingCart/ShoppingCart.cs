@@ -34,6 +34,13 @@ namespace ShoppingCart
             Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) };
             Assert.AreEqual(productList[0], EliminateMostExpensiveProduct(productList));
         }
+        [TestMethod]
+        public void TestForAddingOneMoreProduct()
+        {
+            Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) };
+            Product[] newProductList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) , new Product(2, 7)};
+            Assert.AreEqual(newProductList, AddNewProductToList(newProductList, new Product(2, 7)));
+        }
         private int CalculateShoppingCartPrice(Product[] productList)
         {
             int totalPrice = 0;
@@ -72,6 +79,13 @@ namespace ShoppingCart
                 }
             }
             return productList[productIndex];
+        }
+        Product[] AddNewProductToList(Product[] productList, Product newProduct)
+        {
+            Product[] newProductList = new Product[productList.Length + 1];
+            newProductList = productList;
+            newProductList[newProductList.Length - 1] = newProduct;
+            return newProductList;
         }
     }
 }
