@@ -20,15 +20,18 @@ namespace ShoppingCart
         [TestMethod]
         public void TotalPriceToPay()
         {
-            Product a = new Product(1, 5);
-            Product b = new Product(3, 10);
-            Product c = new Product(5, 2);
-            Assert.AreEqual(45, CalculateShoppingCartPrice(a, b, c));
+            Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5) };
+            Assert.AreEqual(35, CalculateShoppingCartPrice(productList));
         }
 
-        private int CalculateShoppingCartPrice(Product a, Product b, Product c)
+        private int CalculateShoppingCartPrice(Product[] productList)
         {
-            int totalPrice = a.numberOfProducts * a.price + b.numberOfProducts * b.price + c.numberOfProducts * c.price;
+            int totalPrice = 0;
+            for(int i=0; i<productList.Length; i++)
+            {
+                Product auxiliaryProduct = productList[i];
+                totalPrice += auxiliaryProduct.numberOfProducts * auxiliaryProduct.price;
+            }
             return totalPrice;
         }
     }
