@@ -41,6 +41,12 @@ namespace ShoppingCart
             Product[] newProductList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) , new Product(2, 7)};
             Assert.AreEqual(newProductList, AddNewProductToList(newProductList, new Product(2, 7)));
         }
+        [TestMethod]
+        public void MediumPriceOfTheProducts()
+        {
+            Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(5, 4) };
+            Assert.AreEqual(6, GetMediumPrice(productList));
+        }
         private int CalculateShoppingCartPrice(Product[] productList)
         {
             int totalPrice = 0;
@@ -86,6 +92,15 @@ namespace ShoppingCart
             newProductList = productList;
             newProductList[newProductList.Length - 1] = newProduct;
             return newProductList;
+        }
+        int GetMediumPrice(Product[] productList)
+        {
+            int totalPrice = 0;
+            for(int i=0; i<productList.Length; i++)
+            {
+                totalPrice += productList[i].price;
+            }
+            return totalPrice / productList.Length;
         }
     }
 }
