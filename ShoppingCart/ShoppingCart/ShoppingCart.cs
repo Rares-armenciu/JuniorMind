@@ -27,7 +27,7 @@ namespace ShoppingCart
         public void ProductWithLowestPrice()
         {
             Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) };
-            Assert.AreEqual(4, GetCheapestProduct(productList));
+            Assert.AreEqual(productList[3], GetCheapestProduct(productList));
         }
         private int CalculateShoppingCartPrice(Product[] productList)
         {
@@ -39,9 +39,20 @@ namespace ShoppingCart
             }
             return totalPrice;
         }
-        int GetCheapestProduct(Product[] productList)
+        Product GetCheapestProduct(Product[] productList)
         {
-            return 0;
+            int lowestPrice = productList[0].price;
+            int productIndex = 0;
+            for(int i=1; i<productList.Length; i++)
+            {
+                if (productList[i].price < lowestPrice)
+                {
+                    lowestPrice = productList[i].price;
+                    productIndex = i;
+                }
+                    
+            }
+            return productList[productIndex];
         }
     }
 }
