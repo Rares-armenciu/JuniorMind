@@ -20,6 +20,15 @@ namespace ShoppingCart
         [TestMethod]
         public void TestMethod1()
         {
+            Product a = new Product(1, 5);
+            Product b = new Product(3, 10);
+            Product c = new Product(5, 2);
+            Assert.AreEqual(45, CalculateShoppingCartPrice(a, b, c));
+        }
+
+        private int CalculateShoppingCartPrice(Product a, Product b, Product c)
+        {
+            return 0;
         }
     }
 }
