@@ -22,14 +22,37 @@ namespace Alarm
     public class Alarm
     {
         [TestMethod]
-        public void AlarmIsOffMondayAtHourTen()
+        public void AlarmIsOffMondayAtTen()
         {
             AlarmSettings[] alarmSchedule = new AlarmSettings[] {new AlarmSettings(Weekdays.Mon, 6), new AlarmSettings(Weekdays.Tue, 6),
                 new AlarmSettings(Weekdays.Wed, 6), new AlarmSettings(Weekdays.Thu, 6), new AlarmSettings(Weekdays.Fri, 6),
                 new AlarmSettings(Weekdays.Sat, 8), new AlarmSettings(Weekdays.Sun, 8)};
             Assert.AreEqual(false, CheckIfAlarmIsOn(alarmSchedule, new AlarmSettings(Weekdays.Mon, 10)));
         }
-
+        [TestMethod]
+        public void AlarmIsOnTuesdayAtSix()
+        {
+            AlarmSettings[] alarmSchedule = new AlarmSettings[] {new AlarmSettings(Weekdays.Mon, 6), new AlarmSettings(Weekdays.Tue, 6),
+                new AlarmSettings(Weekdays.Wed, 6), new AlarmSettings(Weekdays.Thu, 6), new AlarmSettings(Weekdays.Fri, 6),
+                new AlarmSettings(Weekdays.Sat, 8), new AlarmSettings(Weekdays.Sun, 8)};
+            Assert.AreEqual(true, CheckIfAlarmIsOn(alarmSchedule, new AlarmSettings(Weekdays.Tue, 6)));
+        }
+        [TestMethod]
+        public void AlarmIsOnSundayAtEight()
+        {
+            AlarmSettings[] alarmSchedule = new AlarmSettings[] {new AlarmSettings(Weekdays.Mon, 6), new AlarmSettings(Weekdays.Tue, 6),
+                new AlarmSettings(Weekdays.Wed, 6), new AlarmSettings(Weekdays.Thu, 6), new AlarmSettings(Weekdays.Fri, 6),
+                new AlarmSettings(Weekdays.Sat, 8), new AlarmSettings(Weekdays.Sun, 8)};
+            Assert.AreEqual(true, CheckIfAlarmIsOn(alarmSchedule, new AlarmSettings(Weekdays.Sun, 8)));
+        }
+        [TestMethod]
+        public void AlarmIsOffSaturdayAtFour()
+        {
+            AlarmSettings[] alarmSchedule = new AlarmSettings[] {new AlarmSettings(Weekdays.Mon, 6), new AlarmSettings(Weekdays.Tue, 6),
+                new AlarmSettings(Weekdays.Wed, 6), new AlarmSettings(Weekdays.Thu, 6), new AlarmSettings(Weekdays.Fri, 6),
+                new AlarmSettings(Weekdays.Sat, 8), new AlarmSettings(Weekdays.Sun, 8)};
+            Assert.AreEqual(false, CheckIfAlarmIsOn(alarmSchedule, new AlarmSettings(Weekdays.Sat, 4)));
+        }
         bool CheckIfAlarmIsOn(AlarmSettings[] alarmSchedule, AlarmSettings alarmSettings)
         {
             for (int i = 0; i < alarmSchedule.Length; i++)
