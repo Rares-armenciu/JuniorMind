@@ -32,7 +32,10 @@ namespace Alarm
 
         bool CheckIfAlarmIsOn(AlarmSettings[] alarmSchedule, AlarmSettings alarmSettings)
         {
-            return true;
+            for (int i = 0; i < alarmSchedule.Length; i++)
+                if (alarmSchedule[i].daySetting == alarmSettings.daySetting && alarmSchedule[i].hourSetting == alarmSettings.hourSetting)
+                    return true;
+            return false;
         }
     }
 }
