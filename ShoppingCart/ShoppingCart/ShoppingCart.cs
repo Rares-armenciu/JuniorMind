@@ -32,7 +32,8 @@ namespace ShoppingCart
         public void MostExpensiveProductIsEliminated()
         {
             Product[] productList = new Product[] { new Product(1, 10), new Product(2, 5), new Product(3, 5), new Product(3, 1) };
-            Assert.AreEqual(productList[0], EliminateMostExpensiveProduct(productList));
+            Product[] newProductList = new Product[] { new Product(2, 5), new Product(3, 5), new Product(3, 1) };
+            CollectionAssert.AreEqual(newProductList, EliminateMostExpensiveProduct(productList));
         }
         [TestMethod]
         public void TestForAddingOneMoreProduct()
@@ -72,7 +73,7 @@ namespace ShoppingCart
             }
             return productList[productIndex];
         }
-        Product EliminateMostExpensiveProduct(Product[] productList)
+        Product[] EliminateMostExpensiveProduct(Product[] productList)
         {
             int highestPrice = productList[0].price;
             int productIndex = 0;
@@ -84,7 +85,10 @@ namespace ShoppingCart
                     productIndex = i;
                 }
             }
-            return productList[productIndex];
+            for (int i = productIndex; i < productList.Length-1; i++)
+                productList[i] = productList[i + 1];
+            Array.Resize(ref productList, productList.Length - 1);
+            return productList;
         }
         Product[] AddNewProductToList(Product[] productList, Product newProduct)
         {
