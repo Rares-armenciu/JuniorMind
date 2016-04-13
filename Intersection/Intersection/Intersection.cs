@@ -33,6 +33,20 @@ namespace Intersection
             Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
             Assert.AreEqual(new Coordinates(0, 0), GetIntersectionPoint(firstRoute, secondRoute));
         }
+        [TestMethod]
+        public void TheRoutesMeet()
+        {
+            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Right, Directions.Right , Directions.Up};
+            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
+            Assert.AreEqual(new Coordinates(1, 0), GetIntersectionPoint(firstRoute, secondRoute));
+        }
+        [TestMethod]
+        public void TheRoutesAreEqual()
+        {
+            Directions[] firstRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
+            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
+            Assert.AreEqual(new Coordinates(0, 1), GetIntersectionPoint(firstRoute, secondRoute));
+        }
         Coordinates GetIntersectionPoint(Directions[] firstRoute, Directions[] secondRoute)
         {
             int x1 = 0, y1 = 0;
