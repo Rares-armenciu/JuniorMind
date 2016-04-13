@@ -20,79 +20,45 @@ namespace Intersection
     public class Intersection
     {
         [TestMethod]
-        public void TheRoutesMeetInOnePoint()
+        public void TheRouteIntersectsWithItself()
         {
-            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Down, Directions.Right };
-            Directions[] secondRoute = new Directions[] { Directions.Down, Directions.Down, Directions.Right, Directions.Up };
-            Assert.AreEqual(new Coordinates(0, -2), GetIntersectionPoint(firstRoute, secondRoute));
+            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Down, Directions.Left, Directions.Up, Directions.Right };
+            Assert.AreEqual(new Coordinates(4, 6), GetIntersectionPoint(firstRoute));
         }
         [TestMethod]
-        public void TheRoutesDoOnlyMeetInTheOrigin()
+        public void TheRouteNeverIntersectsWithItself()
         {
-            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Left, Directions.Down, Directions.Down };
-            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
-            Assert.AreEqual(new Coordinates(0, 0), GetIntersectionPoint(firstRoute, secondRoute));
+            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Left, Directions.Down, Directions.Down , Directions.Right};
+            Assert.AreEqual(new Coordinates(5, 5), GetIntersectionPoint(firstRoute));
         }
-        [TestMethod]
-        public void TheRoutesMeet()
+        Coordinates GetIntersectionPoint(Directions[] firstRoute)
         {
-            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Right, Directions.Right , Directions.Up};
-            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
-            Assert.AreEqual(new Coordinates(1, 0), GetIntersectionPoint(firstRoute, secondRoute));
-        }
-        [TestMethod]
-        public void TheRoutesAreEqual()
-        {
-            Directions[] firstRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
-            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
-            Assert.AreEqual(new Coordinates(0, 1), GetIntersectionPoint(firstRoute, secondRoute));
-        }
-        Coordinates GetIntersectionPoint(Directions[] firstRoute, Directions[] secondRoute)
-        {
-            int x1 = 0, y1 = 0;
+            int[,] routeMatrix = new int[10, 10];
+            int xCoordinate = 5, yCoordinate = 5;
+            routeMatrix[xCoordinate , yCoordinate] = 1;
             for(int i=0; i<firstRoute.Length; i++)
             {
-                int x2 = 0, y2 = 0;
                 switch (firstRoute[i])
                 {
                     case Directions.Down:
-                        y1--;
+                        yCoordinate++;
                         break;
                     case Directions.Up:
-                        y1++;
+                        yCoordinate--;
                         break;
                     case Directions.Left:
-                        x1--;
+                        xCoordinate--;
                         break;
                     case Directions.Right:
-                        x1++;
+                        xCoordinate++;
                         break;
                 }
-                Coordinates firstRoutePosition = new Coordinates(x1, y1);
-                for(int j=0; j<secondRoute.Length; j++)
-                {
-                    switch (secondRoute[j])
-                    {
-                        case Directions.Down:
-                            y2--;
-                            break;
-                        case Directions.Up:
-                            y2++;
-                            break;
-                        case Directions.Left:
-                            x2--;
-                            break;
-                        case Directions.Right:
-                            x2++;
-                            break;
-                    }
-                    Coordinates secondRoutePosition = new Coordinates(x2, y2);
-                    if (firstRoutePosition.Equals(secondRoutePosition))
-                        return firstRoutePosition;
-                }
+                if (routeMatrix[xCoordinate , yCoordinate] == 1)
+                    return new Coordinates(xCoordinate, yCoordinate);
+                else routeMatrix[xCoordinate , yCoordinate] = 1;
 
             }
-            return new Coordinates(0, 0);
+            return new Coordinates(5, 5);
         }
     }
 }
