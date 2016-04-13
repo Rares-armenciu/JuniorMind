@@ -20,13 +20,19 @@ namespace Intersection
     public class Intersection
     {
         [TestMethod]
-        public void TestMethod1()
+        public void TheRoutesMeetInOnePoint()
         {
             Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Down, Directions.Right };
             Directions[] secondRoute = new Directions[] { Directions.Down, Directions.Down, Directions.Right, Directions.Up };
             Assert.AreEqual(new Coordinates(0, -2), GetIntersectionPoint(firstRoute, secondRoute));
         }
-
+        [TestMethod]
+        public void TheRoutesDoOnlyMeetInTheOrigin()
+        {
+            Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Left, Directions.Down, Directions.Down };
+            Directions[] secondRoute = new Directions[] { Directions.Up, Directions.Right, Directions.Down, Directions.Right };
+            Assert.AreEqual(new Coordinates(0, 0), GetIntersectionPoint(firstRoute, secondRoute));
+        }
         Coordinates GetIntersectionPoint(Directions[] firstRoute, Directions[] secondRoute)
         {
             int x1 = 0, y1 = 0;
