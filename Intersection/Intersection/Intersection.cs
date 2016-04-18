@@ -23,19 +23,18 @@ namespace Intersection
         public void TheRouteIntersectsWithItself()
         {
             Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Down, Directions.Down, Directions.Left, Directions.Up, Directions.Right };
-            Assert.AreEqual(new Coordinates(4, 6), GetIntersectionPoint(firstRoute));
+            Assert.AreEqual(new Coordinates(-1, 1), GetIntersectionPoint(firstRoute));
         }
         [TestMethod]
         public void TheRouteNeverIntersectsWithItself()
         {
             Directions[] firstRoute = new Directions[] { Directions.Left, Directions.Left, Directions.Down, Directions.Down , Directions.Right};
-            Assert.AreEqual(new Coordinates(5, 5), GetIntersectionPoint(firstRoute));
+            Assert.AreEqual(new Coordinates(0, 0), GetIntersectionPoint(firstRoute));
         }
         Coordinates GetIntersectionPoint(Directions[] firstRoute)
         {
-            int[,] routeMatrix = new int[10, 10];
-            int xCoordinate = 5, yCoordinate = 5;
-            routeMatrix[xCoordinate , yCoordinate] = 1;
+            int xCoordinate = 0, yCoordinate = 0;
+            Coordinates[] route = new Coordinates[firstRoute.Length];
             for(int i=0; i<firstRoute.Length; i++)
             {
                 switch (firstRoute[i])
@@ -53,12 +52,12 @@ namespace Intersection
                         xCoordinate++;
                         break;
                 }
-                if (routeMatrix[xCoordinate , yCoordinate] == 1)
-                    return new Coordinates(xCoordinate, yCoordinate);
-                else routeMatrix[xCoordinate , yCoordinate] = 1;
-
+                route[i] = new Coordinates(xCoordinate, yCoordinate);
+                for (int j = 0; j < i; j++)
+                    if (route[j].xCoordinate == route[i].xCoordinate && route[j].yCoordinate == route[i].yCoordinate)
+                        return route[i];
             }
-            return new Coordinates(5, 5);
+            return new Coordinates(0, 0);
         }
     }
 }
