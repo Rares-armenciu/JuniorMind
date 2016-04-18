@@ -12,25 +12,33 @@ namespace Password
     public class Password
     {
         [TestMethod]
-        public void TestForSmallLettersOnly()
+        public void SmallLettersOnly()
         {
             PasswordSettings settings = PasswordSettings.smallLetters;
-            char[] password = GeneratePassword(settings, 0, 5);
-            Assert.IsTrue(CheckPasswordComponence(password, 0, settings));
+            char[] password = GeneratePassword(settings, 0, 0, 5);
+            Assert.IsTrue(CheckPasswordComponence(password, 0, 0, settings));
         }
         [TestMethod]
-        public void TestForSmallAndCapitalLetters()
+        public void SmallAndCapitalLetters()
         {
             PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters;
-            char[] password = GeneratePassword(settings, 3, 7);
-            Assert.IsTrue(CheckPasswordComponence(password, 3, settings));
+            char[] password = GeneratePassword(settings, 3, 0, 7);
+            Assert.IsTrue(CheckPasswordComponence(password, 3, 0, settings));
+        }
+        [TestMethod]
+        public void SmallLettersAndDigits()
+        {
+            PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.digits;
+            char[] password = GeneratePassword(settings, 0, 2, 5);
+            Assert.IsTrue(CheckPasswordComponence(password, 0, 2, settings));
         }
 
-        private bool CheckPasswordComponence(char[] password, int capitalLetters, PasswordSettings settings)
+        private bool CheckPasswordComponence(char[] password, int capitalLetters, int digitsNumber, PasswordSettings settings)
         {
             int counter = 0;
             int counter2 = 0;
-            string listOfCharacters = StringCreation(settings ^ PasswordSettings.capitalLetters);
+            int counter3 = 0;
+            string listOfCharacters = StringCreation(PasswordSettings.smallLetters);
             for (int i = 0; i < password.Length; i++)
             {
                 for (int j = 0; j < listOfCharacters.Length; j++)
@@ -41,11 +49,13 @@ namespace Password
                     }
                 if (password[i] >= 'A' && password[i] <= 'Z')
                     counter2++;
+                if (password[i] >= '0' && password[i] <= '9')
+                    counter3++;
             }
-            return (counter2 == capitalLetters);
+            return ((counter2 == capitalLetters) && (counter3==digitsNumber));
         }
 
-        char[] GeneratePassword(PasswordSettings settings, int capitalLetters, int passwordLength)
+        char[] GeneratePassword(PasswordSettings settings, int capitalLetters, int digitsNumber, int passwordLength)
         {
             Random random = new Random();
             char[] finalPassword = new char[passwordLength];
@@ -56,19 +66,29 @@ namespace Password
                 {
                     finalPassword[i] = chars[random.Next(chars.Length)];
                     capitalLetters = GetLetterCount(finalPassword[i], capitalLetters);
-                } while (capitalLetters > finalPassword.Length - i - 1 || capitalLetters < 0);
+                    digitsNumber = GetDigitsCount(finalPassword[i], digitsNumber);
+                } while (capitalLetters + digitsNumber > finalPassword.Length - i - 1 || capitalLetters < 0 || digitsNumber < 0);
             }
             return finalPassword;
         }
 
-        private int GetLetterCount(char passwordCharacter, int capitalLetters)
+        private int GetLetterCount(char passwordCharacter, int actualNumber)
         {
-            if (passwordCharacter >= 'A' && passwordCharacter <= 'Z')
-                return capitalLetters-1;
-            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && capitalLetters < 0)
+            if ((passwordCharacter >= 'A' && passwordCharacter <= 'Z'))
+                return actualNumber-1;
+            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && actualNumber < 0)
                 return 0;
-            return capitalLetters;
+            return actualNumber;
         }
+        private int GetDigitsCount(char passwordCharacter, int actualNumber)
+        {
+            if (passwordCharacter >= '0' && passwordCharacter <= '9')
+                return actualNumber - 1;
+            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && actualNumber < 0)
+                return 0;
+            return actualNumber;
+        }
+        
 
         string StringCreation(PasswordSettings settings)
         {
