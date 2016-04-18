@@ -22,9 +22,9 @@ namespace Password
         private bool CheckPasswordComponence(char[] password)
         {
             for (int i = 0; i < password.Length; i++)
-                if (password[i] >= 'a' && password[i] <= 'z')
-                    return true;
-            return false;
+                if (password[i] < 'a' || password[i] > 'z')
+                    return false;
+            return true;
         }
 
         char[] GeneratePassword(PasswordSettings settings, int passwordLength)
