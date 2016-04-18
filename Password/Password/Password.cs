@@ -22,7 +22,7 @@ namespace Password
         public void TestForSmallAndCapitalLetters()
         {
             PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters;
-            char[] password = GeneratePassword(settings, 3, 5);
+            char[] password = GeneratePassword(settings, 3, 7);
             Assert.IsTrue(CheckPasswordComponence(password, 3, settings));
         }
 
@@ -55,11 +55,19 @@ namespace Password
                 do
                 {
                     finalPassword[i] = chars[random.Next(chars.Length)];
-                    if (finalPassword[i] >= 'A' && finalPassword[i] <= 'Z')
-                        capitalLetters--;
-                } while (capitalLetters > finalPassword.Length - i - 1);
+                    capitalLetters = GetLetterCount(finalPassword[i], capitalLetters);
+                } while (capitalLetters > finalPassword.Length - i - 1 || capitalLetters < 0);
             }
             return finalPassword;
+        }
+
+        private int GetLetterCount(char passwordCharacter, int capitalLetters)
+        {
+            if (passwordCharacter >= 'A' && passwordCharacter <= 'Z')
+                return capitalLetters-1;
+            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && capitalLetters < 0)
+                return 0;
+            return capitalLetters;
         }
 
         string StringCreation(PasswordSettings settings)
