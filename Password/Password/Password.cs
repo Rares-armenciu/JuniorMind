@@ -15,90 +15,95 @@ namespace Password
         public void SmallLettersOnly()
         {
             PasswordSettings settings = PasswordSettings.smallLetters;
-            char[] password = GeneratePassword(settings, 0, 0, 5);
-            Assert.IsTrue(CheckPasswordComponence(password, 0, 0, settings));
+            string password = GeneratePassword(settings, 0, 0, 5);
+            Assert.IsTrue(CheckPasswordComponence(password, 0, 0));
         }
         [TestMethod]
         public void SmallAndCapitalLetters()
         {
             PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters;
-            char[] password = GeneratePassword(settings, 3, 0, 7);
-            Assert.IsTrue(CheckPasswordComponence(password, 3, 0, settings));
+            string password = GeneratePassword(settings, 3, 0, 7);
+            Assert.IsTrue(CheckPasswordComponence(password, 3, 0));
         }
         [TestMethod]
         public void SmallLettersAndDigits()
         {
             PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.digits;
-            char[] password = GeneratePassword(settings, 0, 2, 5);
-            Assert.IsTrue(CheckPasswordComponence(password, 0, 2, settings));
+            string password = GeneratePassword(settings, 0, 2, 5);
+            Assert.IsTrue(CheckPasswordComponence(password, 0, 2));
         }
         [TestMethod]
         public void TestForPasswordCheck()
         {
-            Assert.IsTrue(CheckPasswordComponence(new char[] { 'a', 'b', 'c' }, 0, 0, PasswordSettings.smallLetters));
+            Assert.IsTrue(CheckPasswordComponence("abc", 0, 0));
         }
-
-        private bool CheckPasswordComponence(char[] password, int capitalLetters, int digitsNumber, PasswordSettings settings)
+        [TestMethod]
+        public void SmallLettersCapitalLettersAndDigits()
         {
-            int counter = 0;
-            int counter2 = 0;
-            int counter3 = 0;
+            PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters | PasswordSettings.digits;
+            string password = GeneratePassword(settings, 2, 2, 6);
+            Assert.IsTrue(CheckPasswordComponence(password, 2, 2));
+        }
+        private bool CheckPasswordComponence(string password, int capitalLetters, int digitsNumber)
+        {
+            int capitalLettersCount = 0;
+            int digitsCount = 0;
             string listOfCharacters = StringCreation(PasswordSettings.smallLetters);
             for (int i = 0; i < password.Length; i++)
             {
                 if (password[i] >= 'A' && password[i] <= 'Z')
-                    counter2++;
+                    capitalLettersCount++;
                 if (password[i] >= '0' && password[i] <= '9')
-                    counter3++;
-                for (int j = 0; j < listOfCharacters.Length; j++)
-                    if (password[i] == listOfCharacters[j])
-                    {
-                        counter++;
-                        break;
-                    }
+                    digitsCount++;
             }
-            return ((counter2 == capitalLetters) && (counter3==digitsNumber));
+            return ((capitalLettersCount == capitalLetters) && (digitsCount==digitsNumber));
         }
 
-        char[] GeneratePassword(PasswordSettings settings, int capitalLetters, int digitsNumber, int passwordLength)
+        string GeneratePassword(PasswordSettings settings, int capitalLetters, int digitsNumber, int passwordLength)
         {
             Random random = new Random();
-            char[] finalPassword = new char[passwordLength];
+            string finalPassword = null;
             string chars = StringCreation(settings);
-            for (int i = 0; i < finalPassword.Length; i++)
+            bool passwordIsCorrect = false;
+            while(!passwordIsCorrect)
             {
-                do
+                finalPassword = null;
+                for (int i = 0; i < passwordLength; i++)
                 {
-                    finalPassword[i] = chars[random.Next(chars.Length)];
-                    capitalLetters = GetLetterCount(finalPassword[i], capitalLetters);
-                    digitsNumber = GetDigitsCount(finalPassword[i], digitsNumber);
-                } while (capitalLetters + digitsNumber > finalPassword.Length - i - 1 || capitalLetters < 0 || digitsNumber < 0);
+                    finalPassword += chars[random.Next(chars.Length)];
+                }
+                if (capitalLetters == GetCapitalLettersNumber(finalPassword) && digitsNumber == GetDigitsNumber(finalPassword))
+                    passwordIsCorrect = true;
             }
             return finalPassword;
         }
 
-        private int GetLetterCount(char passwordCharacter, int actualNumber)
+        private int GetDigitsNumber(string finalPassword)
         {
-            if ((passwordCharacter >= 'A' && passwordCharacter <= 'Z'))
-                return actualNumber-1;
-            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && actualNumber < 0)
-                return 0;
-            return actualNumber;
+            int counter = 0;
+            for (int i = 0; i < finalPassword.Length; i++)
+                if (finalPassword[i] >= '0' && finalPassword[i] <= '9')
+                    counter++;
+            return counter;
         }
-        private int GetDigitsCount(char passwordCharacter, int actualNumber)
-        {
-            if (passwordCharacter >= '0' && passwordCharacter <= '9')
-                return actualNumber - 1;
-            if (passwordCharacter >= 'a' && passwordCharacter <= 'z' && actualNumber < 0)
-                return 0;
-            return actualNumber;
-        }
-        
 
+        private int GetCapitalLettersNumber(string finalPassword)
+        {
+            int counter = 0;
+            for (int i = 0; i < finalPassword.Length; i++)
+                if (finalPassword[i] >= 'A' && finalPassword[i] <= 'Z')
+                    counter++;
+            return counter;
+        }
         string StringCreation(PasswordSettings settings)
         {
-            string smallLetters = "abcdefghijklmnopqrstuvwxyz";
-            string capitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string smallLetters = null;
+            string capitalLetters = null;
+            for(int i=0; i<26; i++)
+            {
+                smallLetters += (char)(i + 97);
+                capitalLetters += (char)(i + 65);
+            }
             string digits = "0123456789";
             string finalString = null;
             if ((settings & PasswordSettings.smallLetters) != 0)
