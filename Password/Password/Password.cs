@@ -48,7 +48,6 @@ namespace Password
         {
             int capitalLettersCount = 0;
             int digitsCount = 0;
-            string listOfCharacters = StringCreation(PasswordSettings.smallLetters);
             for (int i = 0; i < password.Length; i++)
             {
                 if (password[i] >= 'A' && password[i] <= 'Z')
@@ -99,12 +98,15 @@ namespace Password
         {
             string smallLetters = null;
             string capitalLetters = null;
-            for(int i=0; i<26; i++)
+            string digits = null;
+            for (int i=0; i<26; i++)
             {
                 smallLetters += (char)(i + 97);
                 capitalLetters += (char)(i + 65);
+                if (i < 10)
+                    digits += (char)(i + 48);
+
             }
-            string digits = "0123456789";
             string finalString = null;
             if ((settings & PasswordSettings.smallLetters) != 0)
                 finalString = finalString + smallLetters;
