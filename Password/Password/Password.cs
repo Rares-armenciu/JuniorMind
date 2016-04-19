@@ -32,6 +32,11 @@ namespace Password
             char[] password = GeneratePassword(settings, 0, 2, 5);
             Assert.IsTrue(CheckPasswordComponence(password, 0, 2, settings));
         }
+        [TestMethod]
+        public void TestForPasswordCheck()
+        {
+            Assert.IsTrue(CheckPasswordComponence(new char[] { 'a', 'b', 'c' }, 0, 0, PasswordSettings.smallLetters));
+        }
 
         private bool CheckPasswordComponence(char[] password, int capitalLetters, int digitsNumber, PasswordSettings settings)
         {
@@ -41,16 +46,16 @@ namespace Password
             string listOfCharacters = StringCreation(PasswordSettings.smallLetters);
             for (int i = 0; i < password.Length; i++)
             {
+                if (password[i] >= 'A' && password[i] <= 'Z')
+                    counter2++;
+                if (password[i] >= '0' && password[i] <= '9')
+                    counter3++;
                 for (int j = 0; j < listOfCharacters.Length; j++)
                     if (password[i] == listOfCharacters[j])
                     {
                         counter++;
                         break;
                     }
-                if (password[i] >= 'A' && password[i] <= 'Z')
-                    counter2++;
-                if (password[i] >= '0' && password[i] <= '9')
-                    counter3++;
             }
             return ((counter2 == capitalLetters) && (counter3==digitsNumber));
         }
