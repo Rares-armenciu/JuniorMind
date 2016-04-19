@@ -57,44 +57,46 @@ namespace Password
             }
             return ((capitalLettersCount == capitalLetters) && (digitsCount==digitsNumber));
         }
-
-        string GeneratePassword(PasswordSettings settings, int capitalLetters, int digitsNumber, int passwordLength)
+      
+        string GeneratePassword(PasswordSettings settings, int capitalLetters, int digitNumber, int passwordLength)
         {
-            Random random = new Random();
-            string finalPassword = null;
-            string chars = StringCreation(settings);
-            bool passwordIsCorrect = false;
-            while(!passwordIsCorrect)
+            string password = null;
+            int smallLetters = passwordLength - capitalLetters - digitNumber;
+            password += GetRandomString(PasswordSettings.smallLetters, smallLetters) + 
+                GetRandomString(PasswordSettings.capitalLetters, capitalLetters) +
+                GetRandomString(PasswordSettings.digits, digitNumber);
+            return password;
+        }
+
+        private string GetRandomString(PasswordSettings settings, int number)
+        {
+            string generatedChars = null;
+            Random r = new Random();
+            int startPosition = 0;
+            int endPosition = 0;
+            if ((settings & PasswordSettings.smallLetters) != 0)
             {
-                finalPassword = null;
-                for (int i = 0; i < passwordLength; i++)
-                {
-                    finalPassword += chars[random.Next(chars.Length)];
-                }
-                if (capitalLetters == GetCapitalLettersNumber(finalPassword) && digitsNumber == GetDigitsNumber(finalPassword))
-                    passwordIsCorrect = true;
+                startPosition = 97;
+                endPosition = 122;
             }
-            return finalPassword;
+            if((settings & PasswordSettings.capitalLetters) != 0)
+            {
+                startPosition = 65;
+                endPosition = 90;
+            }
+            if((settings & PasswordSettings.digits) != 0)
+            {
+                startPosition = 48;
+                endPosition = 57;
+            }
+            for (int i = 0; i < number; i++)
+                generatedChars += (char)(r.Next(startPosition, endPosition));
+            return generatedChars;
         }
 
-        private int GetDigitsNumber(string finalPassword)
-        {
-            int counter = 0;
-            for (int i = 0; i < finalPassword.Length; i++)
-                if (finalPassword[i] >= '0' && finalPassword[i] <= '9')
-                    counter++;
-            return counter;
-        }
 
-        private int GetCapitalLettersNumber(string finalPassword)
-        {
-            int counter = 0;
-            for (int i = 0; i < finalPassword.Length; i++)
-                if (finalPassword[i] >= 'A' && finalPassword[i] <= 'Z')
-                    counter++;
-            return counter;
-        }
-        string StringCreation(PasswordSettings settings)
+
+        /*string StringCreation(PasswordSettings settings)
         {
             string smallLetters = null;
             string capitalLetters = null;
@@ -105,7 +107,6 @@ namespace Password
                 capitalLetters += (char)(i + 65);
                 if (i < 10)
                     digits += (char)(i + 48);
-
             }
             string finalString = null;
             if ((settings & PasswordSettings.smallLetters) != 0)
@@ -115,6 +116,6 @@ namespace Password
             if ((settings & PasswordSettings.digits) != 0)
                 finalString = finalString + digits;
             return finalString;
-        }
+        }*/
     }
 }
