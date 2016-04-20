@@ -3,10 +3,16 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Password
 {
-    [Flags]
-    public enum PasswordSettings
+    public struct PasswordSettings
     {
-        smallLetters = 0x1, capitalLetters = 0x2, digits = 0x4, symbols = 0x8, noSimilarChar = 0x10, noAmbigouosChar = 0x20
+        public int smallLetters, capitalLetters, digits, symbols;
+        public PasswordSettings(int a, int b, int c, int d)
+        {
+            smallLetters = a;
+            capitalLetters = b;
+            digits = c;
+            symbols = d;
+        }
     }
     [TestClass]
     public class Password
@@ -14,37 +20,38 @@ namespace Password
         [TestMethod]
         public void SmallLettersOnly()
         {
-            PasswordSettings settings = PasswordSettings.smallLetters;
-            string password = GeneratePassword(settings, 0, 0, 5);
-            Assert.IsTrue(CheckPasswordComponence(password, 0, 0));
+            PasswordSettings settings = new PasswordSettings(5, 0, 0, 0);
+            string password = GeneratePassword(settings);
+            Assert.IsTrue(CheckPasswordComponence(password, settings));
         }
         [TestMethod]
         public void SmallAndCapitalLetters()
         {
-            PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters;
-            string password = GeneratePassword(settings, 3, 0, 7);
-            Assert.IsTrue(CheckPasswordComponence(password, 3, 0));
+            PasswordSettings settings = new PasswordSettings(4, 3, 0, 0);
+            string password = GeneratePassword(settings);
+            Assert.IsTrue(CheckPasswordComponence(password, settings));
         }
         [TestMethod]
         public void SmallLettersAndDigits()
         {
-            PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.digits;
-            string password = GeneratePassword(settings, 0, 2, 5);
-            Assert.IsTrue(CheckPasswordComponence(password, 0, 2));
+            PasswordSettings settings = new PasswordSettings(3, 0, 2, 0);
+            string password = GeneratePassword(settings);
+            Assert.IsTrue(CheckPasswordComponence(password, settings));
         }
         [TestMethod]
         public void TestForPasswordCheck()
         {
-            Assert.IsTrue(CheckPasswordComponence("abc", 0, 0));
+            Assert.IsTrue(CheckPasswordComponence("abc", new PasswordSettings(3, 0, 0, 0)));
         }
         [TestMethod]
         public void SmallLettersCapitalLettersAndDigits()
         {
-            PasswordSettings settings = PasswordSettings.smallLetters | PasswordSettings.capitalLetters | PasswordSettings.digits;
-            string password = GeneratePassword(settings, 2, 2, 6);
-            Assert.IsTrue(CheckPasswordComponence(password, 2, 2));
+            PasswordSettings settings = new PasswordSettings(2, 2, 2, 0);
+            string password = GeneratePassword(settings);
+            Assert.IsTrue(CheckPasswordComponence(password, settings));
         }
-        private bool CheckPasswordComponence(string password, int capitalLetters, int digitsNumber)
+
+        private bool CheckPasswordComponence(string password, PasswordSettings settings)
         {
             int capitalLettersCount = 0;
             int digitsCount = 0;
@@ -55,16 +62,15 @@ namespace Password
                 if (password[i] >= '0' && password[i] <= '9')
                     digitsCount++;
             }
-            return ((capitalLettersCount == capitalLetters) && (digitsCount==digitsNumber));
+            return ((capitalLettersCount == settings.capitalLetters) && (digitsCount == settings.digits));
         }
       
-        string GeneratePassword(PasswordSettings settings, int capitalLetters, int digitNumber, int passwordLength)
+        string GeneratePassword(PasswordSettings settings)
         {
             string password = null;
-            int smallLetters = passwordLength - capitalLetters - digitNumber;
-            password += GetRandomString('a', 'z', smallLetters) + 
-                GetRandomString('A', 'Z', capitalLetters) +
-                GetRandomString('0', '9', digitNumber);
+            password += GetRandomString('a', 'z', settings.smallLetters) + 
+                GetRandomString('A', 'Z', settings.capitalLetters) +
+                GetRandomString('0', '9', settings.digits);
             return password;
         }
 
