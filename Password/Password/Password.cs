@@ -62,60 +62,19 @@ namespace Password
         {
             string password = null;
             int smallLetters = passwordLength - capitalLetters - digitNumber;
-            password += GetRandomString(PasswordSettings.smallLetters, smallLetters) + 
-                GetRandomString(PasswordSettings.capitalLetters, capitalLetters) +
-                GetRandomString(PasswordSettings.digits, digitNumber);
+            password += GetRandomString('a', 'z', smallLetters) + 
+                GetRandomString('A', 'Z', capitalLetters) +
+                GetRandomString('0', '9', digitNumber);
             return password;
         }
 
-        private string GetRandomString(PasswordSettings settings, int number)
+        private string GetRandomString(int startPosition, int endPosition, int number)
         {
             string generatedChars = null;
             Random r = new Random();
-            int startPosition = 0;
-            int endPosition = 0;
-            if ((settings & PasswordSettings.smallLetters) != 0)
-            {
-                startPosition = 97;
-                endPosition = 122;
-            }
-            if((settings & PasswordSettings.capitalLetters) != 0)
-            {
-                startPosition = 65;
-                endPosition = 90;
-            }
-            if((settings & PasswordSettings.digits) != 0)
-            {
-                startPosition = 48;
-                endPosition = 57;
-            }
             for (int i = 0; i < number; i++)
                 generatedChars += (char)(r.Next(startPosition, endPosition));
             return generatedChars;
         }
-
-
-
-        /*string StringCreation(PasswordSettings settings)
-        {
-            string smallLetters = null;
-            string capitalLetters = null;
-            string digits = null;
-            for (int i=0; i<26; i++)
-            {
-                smallLetters += (char)(i + 97);
-                capitalLetters += (char)(i + 65);
-                if (i < 10)
-                    digits += (char)(i + 48);
-            }
-            string finalString = null;
-            if ((settings & PasswordSettings.smallLetters) != 0)
-                finalString = finalString + smallLetters;
-            if ((settings & PasswordSettings.capitalLetters) != 0)
-                finalString = finalString + capitalLetters;
-            if ((settings & PasswordSettings.digits) != 0)
-                finalString = finalString + digits;
-            return finalString;
-        }*/
     }
 }
