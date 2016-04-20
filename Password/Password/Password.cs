@@ -50,7 +50,13 @@ namespace Password
             string password = GeneratePassword(settings);
             Assert.IsTrue(CheckPasswordComponence(password, settings));
         }
-
+        [TestMethod]
+        public void SmallLettersAndSymbols()
+        {
+            PasswordSettings settings = new PasswordSettings(3, 0, 0, 3);
+            string password = GeneratePassword(settings);
+            Assert.IsTrue(CheckPasswordComponence(password, settings));
+        }
         private bool CheckPasswordComponence(string password, PasswordSettings settings)
         {
             int capitalLettersCount = 0;
@@ -62,7 +68,7 @@ namespace Password
                 if (password[i] >= '0' && password[i] <= '9')
                     digitsCount++;
             }
-            return ((capitalLettersCount == settings.capitalLetters) && (digitsCount == settings.digits));
+            return ((capitalLettersCount == settings.capitalLetters) && (digitsCount == settings.digits) && (CountSymbols(password) == settings.symbols));
         }
       
         string GeneratePassword(PasswordSettings settings)
@@ -70,7 +76,7 @@ namespace Password
             string password = null;
             password += GetRandomString('a', 'z', settings.smallLetters) + 
                 GetRandomString('A', 'Z', settings.capitalLetters) +
-                GetRandomString('0', '9', settings.digits);
+                GetRandomString('0', '9', settings.digits) + GetRandomSymbols(settings.symbols);
             return password;
         }
 
@@ -81,6 +87,34 @@ namespace Password
             for (int i = 0; i < number; i++)
                 generatedChars += (char)(r.Next(startPosition, endPosition));
             return generatedChars;
+        }
+        string GetRandomSymbols(int numberOfSymbols)
+        {
+            string generatedSymbols = null;
+            string symbolList = null;
+            Random r = new Random();
+            symbolList += GetStringFromInterval('!', '/') + GetStringFromInterval(':', '@') + GetStringFromInterval('[', '_') + GetStringFromInterval('{', '~');
+            for(int i=0; i<numberOfSymbols; i++)
+                generatedSymbols += symbolList[r.Next(symbolList.Length)];
+            return generatedSymbols;
+        }
+        string GetStringFromInterval(int startPosition, int endPosition)
+        {
+            string finalString = null;
+            for (int i = startPosition; i <= endPosition; i++)
+                finalString += (char)(i);
+            return finalString;
+        }
+        int CountSymbols(string password)
+        {
+            string symbolList = null;
+            int counter = 0;
+            symbolList += GetStringFromInterval('!', '/') + GetStringFromInterval(':', '@') + GetStringFromInterval('[', '_') + GetStringFromInterval('{', '~');
+            for (int i = 0; i < password.Length; i++)
+                for (int j = 0; j < symbolList.Length; j++)
+                    if (password[i] == symbolList[j])
+                        counter++;
+            return counter;
         }
     }
 }
