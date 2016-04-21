@@ -23,6 +23,14 @@ namespace Bicycle
             rotationsPerSecond = rotations;
             wheelDiameter = diameter;
         }
+        public int GetRotations(int position)
+        {
+            return rotationsPerSecond[position].rotations;
+        }
+        public int getSecond(int position)
+        {
+            return rotationsPerSecond[position].second;
+        }
     }
     [TestClass]
     public class Bicycle
@@ -59,14 +67,14 @@ namespace Bicycle
         int GetFastestBicyclist(Bicyclist[] bicyclistList, bool name)
         {
             int bicyclist = 0, second = 0;
-            int highestSpeed = bicyclistList[0].rotationsPerSecond[0].rotations;
+            int highestSpeed = bicyclistList[0].GetRotations(0);
             for(int i=0; i<bicyclistList.Length; i++)
                 for(int j=0; j<bicyclistList[i].rotationsPerSecond.Length; j++)
-                    if (bicyclistList[i].rotationsPerSecond[j].rotations > highestSpeed)
+                    if (bicyclistList[i].GetRotations(j) > highestSpeed)
                     {
                         bicyclist = i + 1;
-                        highestSpeed = bicyclistList[i].rotationsPerSecond[j].rotations;
-                        second = bicyclistList[i].rotationsPerSecond[j].second;
+                        highestSpeed = bicyclistList[i].GetRotations(j);
+                        second = bicyclistList[i].getSecond(j);
                     }
             if(name)
                 return bicyclist;
