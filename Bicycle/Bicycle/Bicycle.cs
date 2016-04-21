@@ -22,13 +22,16 @@ namespace Bicycle
             Rotations[] secondCompetitor = new Rotations[] { new Rotations(1, 2), new Rotations(2, 4), new Rotations(3, 1) };
             Rotations[] thirdCompetitor = new Rotations[] { new Rotations(1, 3), new Rotations(2, 2), new Rotations(3, 1) };
             Assert.AreEqual(6, GetFullDistance(firstCompetitor, 1));
-            Assert.AreEqual(4.2, GetFullDistance(secondCompetitor, 0.6));
-            Assert.AreEqual(4.8, GetFullDistance(thirdCompetitor, 0.8));
+            Assert.AreEqual(4.2, Math.Round(GetFullDistance(secondCompetitor, 0.6), 1));
+            Assert.AreEqual(4.8, Math.Round(GetFullDistance(thirdCompetitor, 0.8), 1));
         }
 
-        private int GetFullDistance(Rotations[] firstCompetitor, double wheelDiameter)
+        double GetFullDistance(Rotations[] competitor, double wheelDiameter)
         {
-            return 0;
+            double distance = 0;
+            for (int i = 0; i < competitor.Length; i++)
+                distance += competitor[i].rotations * wheelDiameter;
+            return distance;
         }
     }
 }
