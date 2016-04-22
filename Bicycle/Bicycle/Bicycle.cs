@@ -56,6 +56,16 @@ namespace Bicycle
             Assert.AreEqual("Cristi", GetBicyclistName(bicyclistList));
             Assert.AreEqual(2, GetFastestBicyclist(bicyclistList, false));
         }
+        [TestMethod]
+        public void TestaForMediumSpeed()
+        {
+            Rotations[] firstCompetitor = new Rotations[] { new Rotations(1, 1), new Rotations(2, 3), new Rotations(3, 2) };
+            Rotations[] secondCompetitor = new Rotations[] { new Rotations(1, 2), new Rotations(2, 4), new Rotations(3, 1) };
+            Rotations[] thirdCompetitor = new Rotations[] { new Rotations(1, 3), new Rotations(2, 2), new Rotations(3, 1) };
+            Bicyclist[] bicyclistList = new Bicyclist[] { new Bicyclist("Rares", firstCompetitor, 1), new Bicyclist("Cristi", secondCompetitor, 0.6),
+                                          new Bicyclist("Sebi", thirdCompetitor, 0.8)};
+            Assert.AreEqual("Rares", GetMediumSpeed(bicyclistList));
+        }
 
         double GetFullDistance(Bicyclist bicyclist)
         {
@@ -80,10 +90,30 @@ namespace Bicycle
                 return bicyclist;
             return second;
         }
-
         string GetBicyclistName(Bicyclist[] bicyclistList)
         {
             return bicyclistList[GetFastestBicyclist(bicyclistList, true) - 1].name;
         }
+
+        private string GetMediumSpeed(Bicyclist[] bicyclistList)
+        {
+            float meanValue = 0;
+            float auiliary = 0;
+            int position = 0;
+            for (int i = 0; i < bicyclistList.Length; i++)
+            {
+                auiliary = 0;
+                for (int j = 0; j < bicyclistList[i].rotationsPerSecond.Length; j++)
+                    auiliary = (float)(auiliary + bicyclistList[i].GetRotations(j) * bicyclistList[i].wheelDiameter);
+                if (auiliary / bicyclistList[i].rotationsPerSecond.Length > meanValue)
+                {
+                    meanValue = auiliary / bicyclistList[i].rotationsPerSecond.Length;
+                    position = i;
+                }
+            }
+            return bicyclistList[position].name;
+                    
+        }
+
     }
 }
