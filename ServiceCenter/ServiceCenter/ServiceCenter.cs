@@ -10,17 +10,24 @@ namespace ServiceCenter
         [TestMethod]
         public void SimpleTest()
         {
-            CollectionAssert.AreEqual(new int[] { 3, 2, 1 }, SetPrioritiesInOrder(new string[] { "Low", "Medium", "High" }));
+            Priority[] prioritiesList = new Priority[] { Priority.Low, Priority.Medium, Priority.High}; 
+            CollectionAssert.AreEqual(new int[] { 3, 2, 1 }, SetPrioritiesInOrder(prioritiesList));
         }
         [TestMethod]
         public void ComplexTest()
         {
-            CollectionAssert.AreEqual(new int[] { 4, 6, 2, 7, 1, 3, 5}, SetPrioritiesInOrder(new string[] { "Low", "Medium", "Low", "High", "Low", "High", "Medium" }));
+            Priority[] prioritiesList = new Priority[] { Priority.High, Priority.Low, Priority.Low, Priority.Medium, Priority.High, Priority.Low };
+            CollectionAssert.AreEqual(new int[] { 1, 5, 4, 2, 3, 6 }, SetPrioritiesInOrder(prioritiesList));
         }
-        int[] SetPrioritiesInOrder(string[] v)
+        int[] SetPrioritiesInOrder(Priority[] priorityList)
         {
-            RepairOrder repair = new RepairOrder(v);
-            return repair.SortPriorities();
+            Client[] clientList = new Client[priorityList.Length];
+            for(int i=0; i<priorityList.Length; i++)
+            {
+                clientList[i] = new Client(priorityList[i]);
+            }
+            Service s = new Service(clientList);
+            return s.SortPriorityList();
         }
     }
 }
