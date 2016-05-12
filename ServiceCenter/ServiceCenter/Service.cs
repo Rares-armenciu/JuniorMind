@@ -9,10 +9,13 @@ namespace ServiceCenter
     class Service
     {
         private Client[] clientsList;
-        
+        private int[] clientsOrder;
+
         public Service(Client[] clientsList)
         {
             this.clientsList = clientsList;
+            clientsOrder = new int[clientsList.Length];
+            SortPriorityList();
         }
         public static void Swap<T>(ref T lhs, ref T rhs)
         {
@@ -20,9 +23,8 @@ namespace ServiceCenter
             lhs = rhs;
             rhs = temp;
         }
-        public int[] SortPriorityList()
+        private void SortPriorityList()
         {
-            int[] clientsOrder = new int[clientsList.Length];
             for (int i = 0; i < clientsList.Length; i++)
                 clientsOrder[i] = i + 1;
             int counter = 0;
@@ -39,7 +41,10 @@ namespace ServiceCenter
                     }
                 }
             } while (counter != 0);
-            return clientsOrder;
+        }
+        public int GetNextCase(int position)
+        {
+            return clientsOrder[position];
         }
     }
 }

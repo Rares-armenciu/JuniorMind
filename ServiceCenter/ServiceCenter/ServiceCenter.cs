@@ -27,7 +27,10 @@ namespace ServiceCenter
                 clientList[i] = new Client(priorityList[i]);
             }
             Service s = new Service(clientList);
-            return s.SortPriorityList();
+            int[] clientsOrder = new int[priorityList.Length];
+            for (int i = 0; i < clientsOrder.Length; i++)
+                clientsOrder[i] = s.GetNextCase(i);
+            return clientsOrder;
         }
     }
 }
