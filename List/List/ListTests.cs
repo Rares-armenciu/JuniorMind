@@ -31,5 +31,16 @@ namespace List
             list.Clear();
             Xunit.Assert.Equal(0, list.Count);
         }
+        [Fact]
+        public void CheckIfListContainsElement()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            Xunit.Assert.True(list.Contains(2));
+            Xunit.Assert.False(list.Contains(4));
+        }
+
     }
 }

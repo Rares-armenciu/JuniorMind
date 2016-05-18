@@ -55,7 +55,10 @@ namespace List
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < list.Length; i++)
+                if (list[i].Equals(item))
+                    return true;
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
