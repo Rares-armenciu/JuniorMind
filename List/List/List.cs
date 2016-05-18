@@ -83,7 +83,20 @@ namespace List
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            bool check = false;
+            for (int i = 0; i < list.Length - 1; i++)
+            {
+                if (list[i].Equals(item))
+                    check = true;
+                if (check)
+                    list[i] = list[i + 1];
+            }
+            if (check || list[list.Length-1].Equals(item))
+            {
+                Array.Resize(ref list, list.Length - 1);
+                return true;
+            }
+            return false;
         }
 
         public void RemoveAt(int index)

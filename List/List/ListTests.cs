@@ -41,6 +41,15 @@ namespace List
             Xunit.Assert.True(list.Contains(2));
             Xunit.Assert.False(list.Contains(4));
         }
+        [Fact]
+        public void RemoveItemFromList()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            Xunit.Assert.True(list.Remove(2));
+        }
 
     }
 }
