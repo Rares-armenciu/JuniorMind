@@ -13,5 +13,12 @@ namespace List
             var list = new List<int>();
             Xunit.Assert.Equal(0, list.Count);
         }
+        [Fact]
+        public void AddElementsToList()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            Xunit.Assert.Equal(2, list.Count);        }
     }
 }

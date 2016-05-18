@@ -42,7 +42,10 @@ namespace List
 
         public void Add(T item)
         {
-            throw new NotImplementedException();
+            Array.Resize(ref list, list.Length + 1);
+            list[dimension] = item;
+            dimension++;
+            
         }
 
         public void Clear()
