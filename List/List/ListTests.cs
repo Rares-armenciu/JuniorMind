@@ -19,6 +19,17 @@ namespace List
             var list = new List<int>();
             list.Add(1);
             list.Add(2);
-            Xunit.Assert.Equal(2, list.Count);        }
+            Xunit.Assert.Equal(2, list.Count);
+        }
+        [Fact]
+        public void ClearList()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            Xunit.Assert.Equal(2, list.Count);
+            list.Clear();
+            Xunit.Assert.Equal(0, list.Count);
+        }
     }
 }

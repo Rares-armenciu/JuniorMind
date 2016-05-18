@@ -45,12 +45,12 @@ namespace List
             Array.Resize(ref list, list.Length + 1);
             list[dimension] = item;
             dimension++;
-            
         }
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            Array.Resize(ref list, 0);
+            dimension = 0;
         }
 
         public bool Contains(T item)
