@@ -9,7 +9,7 @@ namespace List
 {
     class List<T> : IList<T>
     {
-        int dimension = 0;
+        int lastPosition = -1;
         T[] list = new T[0];
         public T this[int index]
         {
@@ -28,7 +28,7 @@ namespace List
         {
             get
             {
-                return dimension;
+                return lastPosition + 1;
             }
         }
 
@@ -42,15 +42,23 @@ namespace List
 
         public void Add(T item)
         {
-            Array.Resize(ref list, list.Length + 1);
-            list[dimension] = item;
-            dimension++;
+            lastPosition++;
+            if (lastPosition <= list.Length)
+            {
+                if (list.Length == 0)
+                    Array.Resize(ref list, 1);
+                else
+                    Array.Resize(ref list, list.Length * 2);
+                list[lastPosition] = item;
+            }
+            else
+                list[lastPosition] = item;
         }
 
         public void Clear()
         {
             Array.Resize(ref list, 0);
-            dimension = 0;
+            lastPosition = -1;
         }
 
         public bool Contains(T item)
@@ -73,12 +81,25 @@ namespace List
 
         public int IndexOf(T item)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < list.Length; i++)
+                if (list[i].Equals(item))
+                    return i + 1;
+            return 0;
         }
 
         public void Insert(int index, T item)
         {
-            throw new NotImplementedException();
+            lastPosition++;
+            if (lastPosition == list.Length)
+            {
+                if (list.Length == 0)
+                    Array.Resize(ref list, 1);
+                else
+                    Array.Resize(ref list, list.Length * 2);
+            }
+            for (int i = lastPosition; i >= index; i--)
+                list[i] = list[i - 1];
+            list[index - 1] = item;
         }
 
         public bool Remove(T item)
@@ -93,7 +114,6 @@ namespace List
             }
             if (check || list[list.Length-1].Equals(item))
             {
-                Array.Resize(ref list, list.Length - 1);
                 return true;
             }
             return false;
@@ -101,7 +121,14 @@ namespace List
 
         public void RemoveAt(int index)
         {
-            throw new NotImplementedException();
+            bool remove = false;
+            for (int i = index - 1; i < list.Length - 1; i++)
+            {
+                list[i] = list[i + 1];
+                remove = true;
+            }
+            if (remove)
+                lastPosition--;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
