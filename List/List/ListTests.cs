@@ -79,5 +79,16 @@ namespace List
             list.Insert(1, 5);
             Assert.Equal(4, list.Count);
         }
+        [Fact]
+        public void CopyToTest()
+        {
+            var list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            int[] valueList = new int[] { 4, 5, 6 };
+            list.CopyTo(valueList, 3);
+            Assert.Equal(6, valueList.Length);
+        }
     }
 }

@@ -42,17 +42,8 @@ namespace List
 
         public void Add(T item)
         {
-            lastPosition++;
-            if (lastPosition <= list.Length)
-            {
-                if (list.Length == 0)
-                    Array.Resize(ref list, 1);
-                else
-                    Array.Resize(ref list, list.Length * 2);
-                list[lastPosition] = item;
-            }
-            else
-                list[lastPosition] = item;
+            ResizeList();
+            list[lastPosition] = item;
         }
 
         public void Clear()
@@ -71,7 +62,13 @@ namespace List
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            throw new NotImplementedException();
+            Array.Resize(ref array, array.Length + lastPosition);
+            int counter = 0;
+            for (int i = array.Length - lastPosition; i < array.Length; i++)
+            {
+                array[i] = list[counter];
+                counter++;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -89,14 +86,7 @@ namespace List
 
         public void Insert(int index, T item)
         {
-            lastPosition++;
-            if (lastPosition == list.Length)
-            {
-                if (list.Length == 0)
-                    Array.Resize(ref list, 1);
-                else
-                    Array.Resize(ref list, list.Length * 2);
-            }
+            ResizeList();
             for (int i = lastPosition; i >= index; i--)
                 list[i] = list[i - 1];
             list[index - 1] = item;
@@ -134,6 +124,17 @@ namespace List
         IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
+        }
+        private void ResizeList()
+        {
+            lastPosition++;
+            if (lastPosition == list.Length)
+            {
+                if (list.Length == 0)
+                    Array.Resize(ref list, 1);
+                else
+                    Array.Resize(ref list, list.Length * 2);
+            }
         }
     }
 }
