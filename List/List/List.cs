@@ -11,6 +11,7 @@ namespace List
     {
         int lastPosition = -1;
         T[] list = new T[0];
+        int currentPosition = -1;
         public T this[int index]
         {
             get
@@ -36,7 +37,7 @@ namespace List
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
@@ -62,18 +63,14 @@ namespace List
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            Array.Resize(ref array, array.Length + lastPosition);
-            int counter = 0;
-            for (int i = array.Length - lastPosition; i < array.Length; i++)
-            {
-                array[i] = list[counter];
-                counter++;
-            }
+            for (int i = 0; i < lastPosition; i++)
+                array[i + arrayIndex] = list[i];
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for(int i=0; i<lastPosition++; i++)
+                yield return list[currentPosition];
         }
 
         public int IndexOf(T item)
@@ -94,16 +91,9 @@ namespace List
 
         public bool Remove(T item)
         {
-            bool check = false;
-            for (int i = 0; i < list.Length - 1; i++)
+            if(Contains(item))
             {
-                if (list[i].Equals(item))
-                    check = true;
-                if (check)
-                    list[i] = list[i + 1];
-            }
-            if (check || list[list.Length-1].Equals(item))
-            {
+                RemoveAt(IndexOf(item));
                 return true;
             }
             return false;
@@ -123,7 +113,7 @@ namespace List
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
         private void ResizeList()
         {
