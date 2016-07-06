@@ -42,9 +42,12 @@ namespace List
 
         public void Add(T item)
         {
+            CheckForNotSupportedException();
             ResizeList();
             list[lastPosition] = item;
         }
+
+
 
         public void Clear()
         {
@@ -62,8 +65,13 @@ namespace List
 
         public void CopyTo(T[] array, int arrayIndex)
         {
-            for (int i = 0; i < lastPosition; i++)
-                array[i + arrayIndex] = list[i];
+            CheckForArgumentException(arrayIndex);
+            if (array.Length == 0)
+                throw new ArgumentNullException();
+            if (array.Length > lastPosition - arrayIndex)
+                throw new ArgumentException();
+            for (int i = 0; i < array.Length; i++)
+                list[i + arrayIndex] = array[i];
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -82,6 +90,7 @@ namespace List
 
         public void Insert(int index, T item)
         {
+            CheckForNotSupportedException();
             CheckForArgumentException(index);
             ResizeList();
             for (int i = lastPosition; i >= index; i--)
@@ -92,12 +101,13 @@ namespace List
         private void CheckForArgumentException(int index)
         {
             if (index > lastPosition || index < 0)
-                throw new ArgumentException();
+                throw new ArgumentOutOfRangeException();
         }
 
         public bool Remove(T item)
         {
-            if(Contains(item))
+            CheckForNotSupportedException();
+            if (Contains(item))
             {
                 RemoveAt(IndexOf(item));
                 return true;
@@ -105,8 +115,15 @@ namespace List
             return false;
         }
 
+        private void CheckForNotSupportedException()
+        {
+            if (IsReadOnly)
+                throw new NotSupportedException();
+        }
+
         public void RemoveAt(int index)
         {
+            CheckForNotSupportedException();
             CheckForArgumentException(index);
             bool remove = false;
             for (int i = index - 1; i < list.Length - 1; i++)

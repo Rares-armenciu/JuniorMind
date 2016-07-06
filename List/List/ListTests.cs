@@ -62,23 +62,48 @@ namespace List
         [Fact]
         public void CopyToTest()
         {
-            int[] firstList = new int[] { 1, 2, 3, 4, 5, 6 };
-            int[] secondList = new int[] { 10, 20, 30 };
-            secondList.CopyTo(firstList, 2);
-            Assert.Equal(new int[] { 1, 2, 10, 20, 30, 6 }, firstList);
+            var list1 = new List<int>() { 1, 2, 3, 4, 5, 6 };
+            int[] list2 = new int[] { 10, 20, 30 };
+            list1.CopyTo(list2, 2);
+            Assert.True(list1.Contains(10));
         }
         [Fact]
         public void InsertThrowsArgumentException()
         {
             var list = new List<int>() { 1, 2, 3 };
-            Assert.Throws<ArgumentException>(() => list.Insert(4, 3));
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(4, 3));
         }
         [Fact]
         public void RemoveAtThrowsArgumentException()
         {
             var list = new List<int>() { 1, 2, 3, 4};
-            Assert.Throws<ArgumentException>(() => list.RemoveAt(10));
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.RemoveAt(10));
         }
-
+        [Fact]
+        public void AddThrowsNotSupportedExceptionIfListIsReadOnly()
+        {
+            var list = new List<int>();
+            Assert.Throws<NotSupportedException>(() => list.Add(5));
+        }
+        [Fact]
+        public void InsertThrowsNotSupportedExceptionIfListIsReadOnly()
+        {
+            var list = new List<int>();
+            Assert.Throws<NotSupportedException>(() => list.Insert(1, 3));
+        }
+        [Fact]
+        public void CopyToThrowsArgumentIsNullExceptionIfArrayIsEmpty()
+        {
+            var list1 = new List<int>() { 1, 1, 1, 1 };
+            int[] list2 = new int[0];
+            Assert.Throws<ArgumentNullException>(() => list1.CopyTo(list2, 3));
+        }
+        [Fact]
+        public void CopyToThrowsArgumentExceptionIfArrayIsTooLong()
+        {
+            var list1 = new List<int>() { 1, 2, 3 };
+            int[] list2 = new int[] { 5, 5, 5, 5, 5 };
+            Assert.Throws<ArgumentException>(() => list1.CopyTo(list2, 2));
+        }
     }
 }
