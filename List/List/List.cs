@@ -82,6 +82,8 @@ namespace List
 
         public void Insert(int index, T item)
         {
+            if (index > lastPosition || index < 0)
+                throw new ArgumentException();
             ResizeList();
             for (int i = lastPosition; i >= index; i--)
                 list[i] = list[i - 1];

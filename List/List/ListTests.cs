@@ -67,5 +67,12 @@ namespace List
             secondList.CopyTo(firstList, 2);
             Assert.Equal(new int[] { 1, 2, 10, 20, 30, 6 }, firstList);
         }
+        [Fact]
+        public void InsertThrowsArgumentException()
+        {
+            var list = new List<int>() { 1, 2, 3 };
+            Assert.Throws<ArgumentException>(() => list.Insert(4, 3));
+        }
+
     }
 }
