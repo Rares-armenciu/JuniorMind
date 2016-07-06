@@ -82,12 +82,17 @@ namespace List
 
         public void Insert(int index, T item)
         {
-            if (index > lastPosition || index < 0)
-                throw new ArgumentException();
+            CheckForArgumentException(index);
             ResizeList();
             for (int i = lastPosition; i >= index; i--)
                 list[i] = list[i - 1];
             list[index - 1] = item;
+        }
+
+        private void CheckForArgumentException(int index)
+        {
+            if (index > lastPosition || index < 0)
+                throw new ArgumentException();
         }
 
         public bool Remove(T item)
@@ -102,6 +107,7 @@ namespace List
 
         public void RemoveAt(int index)
         {
+            CheckForArgumentException(index);
             bool remove = false;
             for (int i = index - 1; i < list.Length - 1; i++)
             {

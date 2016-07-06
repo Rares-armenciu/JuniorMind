@@ -49,7 +49,7 @@ namespace List
         {
             var list = new List<int>() { 1, 2, 3, 4 };
             list.RemoveAt(2);
-            list.RemoveAt(3);
+            list.RemoveAt(2);
             Assert.Equal(2, list.Count);
         }
         [Fact]
