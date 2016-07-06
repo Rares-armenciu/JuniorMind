@@ -11,7 +11,6 @@ namespace List
     {
         int lastPosition = -1;
         T[] list = new T[0];
-        int currentPosition = -1;
         public T this[int index]
         {
             get
@@ -70,7 +69,7 @@ namespace List
         public IEnumerator<T> GetEnumerator()
         {
             for(int i=0; i<lastPosition++; i++)
-                yield return list[currentPosition];
+                yield return list[i];
         }
 
         public int IndexOf(T item)
