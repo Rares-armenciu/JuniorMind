@@ -71,7 +71,8 @@ namespace DoublyLinkedList
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            //root = new Node<T>(null, null, null);
+
         }
 
         public bool Contains(T item)
@@ -101,7 +102,19 @@ namespace DoublyLinkedList
 
         public bool Remove(T item)
         {
-            throw new NotImplementedException();
+            if (Contains(item))
+            {
+                current = root;
+                while (current.nextNode != null && !current.data.Equals(item))
+                {
+                    current = current.nextNode;
+                }
+                current.previousNode.nextNode = current.nextNode;
+                current.nextNode.previousNode = current.previousNode;
+                nodesCount--;
+                return true;
+            }
+            return false;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
