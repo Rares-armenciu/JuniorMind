@@ -22,6 +22,10 @@ namespace DoublyLinkedList
             }
         }
 
+        public bool IsEmpty()
+        {
+            return (nodesCount == 0);
+        }
         public bool IsReadOnly
         {
             get
@@ -32,31 +36,37 @@ namespace DoublyLinkedList
 
         public void Add(T item)
         {
-            Node<T> node = new Node<T>(item);
-            if(root == null)
+            AddLast(item);
+        }
+        public void AddLast(T item)
+        {
+            if (root == null)
             {
-                root = node;
-                root.previousNode = null;
-                root.nextNode = null;
-                nodesCount++;
+                root = new Node<T>(null, item, null);
             }
             else
             {
                 current = root;
-                while(current.nextNode != null)
+                while (current.nextNode != null)
                     current = current.nextNode;
-                node.previousNode = current;
-                node.nextNode = null;
+                Node<T> node = new Node<T>(current, item, null);
                 current.nextNode = node;
             }
-        }
-        public void AddLast(T item)
-        {
-
+            nodesCount++;
         }
         public void AddFirst(T item)
         {
-
+            if (root == null)
+            {
+                root = new Node<T>(null, item, null);
+            }
+            else
+            {
+                Node<T> node = new Node<T>(null, item, root);
+                root.previousNode = node;
+                root = node;
+            }
+            nodesCount++;
         }
 
         public void Clear()
@@ -66,7 +76,17 @@ namespace DoublyLinkedList
 
         public bool Contains(T item)
         {
-            throw new NotImplementedException();
+            if (root != null)
+            {
+                current = root;
+                while(current.nextNode != null)
+                {
+                    current = current.nextNode;
+                    if (current.data.Equals(item))
+                        return true;
+                }
+            }
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)

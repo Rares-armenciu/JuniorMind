@@ -16,5 +16,11 @@ namespace DoublyLinkedList
         {
             this.data = data;
         }
+        public Node(Node<T> previousNode, T data, Node<T> nextNode)
+        {
+            this.previousNode = previousNode;
+            this.data = data;
+            this.nextNode = nextNode;
+        }
     }
 }
