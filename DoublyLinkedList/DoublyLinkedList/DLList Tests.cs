@@ -1,14 +1,16 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace DoublyLinkedList
 {
-    [TestClass]
-    public class UnitTest1
+    [Microsoft.VisualStudio.TestTools.UnitTesting.TestClass]
+    public class DLLListTests
     {
-        [TestMethod]
-        public void TestMethod1()
+        [Fact]
+        public void AddItemsTest()
         {
+            var dlList = new DLList<int> { 1, 2 };
+            Assert.Equal(1, dlList.Count);
         }
     }
 }
