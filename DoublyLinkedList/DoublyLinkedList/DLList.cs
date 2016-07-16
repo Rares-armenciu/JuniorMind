@@ -98,9 +98,13 @@ namespace DoublyLinkedList
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            current = root;
+            while(current != null)
+            {
+                yield return current.data;
+                current = current.nextNode;
+            }
         }
-
         public bool Remove(T item)
         {
             if (Contains(item))
@@ -134,7 +138,7 @@ namespace DoublyLinkedList
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
     }
 }
