@@ -36,8 +36,16 @@ namespace DoublyLinkedList
         public void ElementIsRemovedFromList()
         {
             var list = new DLList<int> { 1, 2, 3 };
-            list.Remove(3);
+            list.Remove(1);
             Assert.Equal(2, list.Count);
         }
+        [Fact]
+        public void ListIsCleared()
+        {
+            var list = new DLList<int> { 1, 2, 3 };
+            list.Clear();
+            Assert.Equal(0, list.Count);
+        }
+
     }
 }
