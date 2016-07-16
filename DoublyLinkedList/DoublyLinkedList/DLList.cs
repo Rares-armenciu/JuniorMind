@@ -11,7 +11,6 @@ namespace DoublyLinkedList
     {
         public int nodesCount = 0;
         static Node<T> root;
-        static Node<T> temp;
         static Node<T> current;
 
         public int Count
@@ -71,13 +70,15 @@ namespace DoublyLinkedList
 
         public void Clear()
         {
-            //root = new Node<T>(null, null, null);
-
+            root = null;
+            nodesCount = 0;
         }
 
         public bool Contains(T item)
         {
-            if (root != null)
+            if (root == null)
+                return false;
+            else
             {
                 current = root;
                 while(current.nextNode != null)
@@ -87,7 +88,7 @@ namespace DoublyLinkedList
                         return true;
                 }
             }
-            return false;
+            return root.data.Equals(item);
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -106,6 +107,13 @@ namespace DoublyLinkedList
             {
                 nodesCount--;
                 current = root;
+                if (current.data.Equals(item))
+                {
+
+                    current.nextNode.previousNode = null;
+                    root = current.nextNode;
+                    return true;
+                }
                 while (current.nextNode != null && !current.data.Equals(item))
                 {
                     current = current.nextNode;
