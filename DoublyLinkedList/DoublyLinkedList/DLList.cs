@@ -104,15 +104,22 @@ namespace DoublyLinkedList
         {
             if (Contains(item))
             {
+                nodesCount--;
                 current = root;
                 while (current.nextNode != null && !current.data.Equals(item))
                 {
                     current = current.nextNode;
                 }
                 current.previousNode.nextNode = current.nextNode;
-                current.nextNode.previousNode = current.previousNode;
-                nodesCount--;
-                return true;
+                if (current.nextNode == null)
+                    return true;
+                else
+                {
+                    current.nextNode.previousNode = current.previousNode;
+                    return true;
+                }
+                
+
             }
             return false;
         }
