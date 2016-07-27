@@ -30,7 +30,7 @@ namespace DoublyLinkedList
         public void ListContainsIntegerOne()
         {
             var list = new DLList<int> { 1, 2, 3 };
-            Assert.True(list.Contains(1));
+            Assert.True(list.Contains(3));
         }
         [Fact]
         public void ElementIsRemovedFromList()

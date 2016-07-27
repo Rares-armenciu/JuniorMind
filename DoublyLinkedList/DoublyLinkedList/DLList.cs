@@ -10,20 +10,29 @@ namespace DoublyLinkedList
     class DLList<T> : ICollection<T> , IEnumerable<T>
     {
         public int nodesCount = 0;
-        static Node<T> root;
-        static Node<T> current;
+        Node<T> current;
+        Node<T> sentinel = new Node<T>();
+
+
 
         public int Count
         {
             get
             {
-                return nodesCount;
+                int count = 0;
+                current = sentinel;
+                while(current.nextNode!= sentinel)
+                {
+                    current = current.nextNode;
+                    count++;
+                }
+                return count;
             }
         }
 
         public bool IsEmpty()
         {
-            return (nodesCount == 0);
+            return (sentinel.nextNode.Equals(sentinel) && sentinel.previousNode.Equals(sentinel));
         }
         public bool IsReadOnly
         {
@@ -39,56 +48,41 @@ namespace DoublyLinkedList
         }
         public void AddLast(T item)
         {
-            if (root == null)
-            {
-                root = new Node<T>(null, item, null);
-            }
-            else
-            {
-                current = root;
-                while (current.nextNode != null)
-                    current = current.nextNode;
-                Node<T> node = new Node<T>(current, item, null);
-                current.nextNode = node;
-            }
+            current = new Node<T>(sentinel.previousNode, item, sentinel);
+            sentinel.previousNode.nextNode = current;
+            sentinel.previousNode = current;
             nodesCount++;
         }
         public void AddFirst(T item)
         {
-            if (root == null)
-            {
-                root = new Node<T>(null, item, null);
-            }
-            else
-            {
-                Node<T> node = new Node<T>(null, item, root);
-                root.previousNode = node;
-                root = node;
-            }
+            current = new Node<T>(sentinel, item, sentinel.nextNode);
+            sentinel.nextNode.previousNode = current;
+            sentinel.nextNode = current;
             nodesCount++;
         }
 
         public void Clear()
         {
-            root = null;
-            nodesCount = 0;
+            sentinel.nextNode = sentinel;
+            sentinel.previousNode = sentinel;
+
         }
 
         public bool Contains(T item)
         {
-            if (root == null)
+            if (nodesCount == 0)
                 return false;
             else
             {
-                current = root;
-                while(current.nextNode != null)
+                current = sentinel;
+                while(current.nextNode != sentinel)
                 {
                     current = current.nextNode;
                     if (current.data.Equals(item))
                         return true;
                 }
             }
-            return root.data.Equals(item);
+            return false;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -98,40 +92,29 @@ namespace DoublyLinkedList
 
         public IEnumerator<T> GetEnumerator()
         {
-            current = root;
-            while(current != null)
+            current = sentinel;
+            while(current.nextNode != sentinel)
             {
-                yield return current.data;
                 current = current.nextNode;
+                yield return current.data;
             }
         }
         public bool Remove(T item)
         {
             if (Contains(item))
             {
-                nodesCount--;
-                current = root;
-                if (current.data.Equals(item))
-                {
-
-                    current.nextNode.previousNode = null;
-                    root = current.nextNode;
-                    return true;
-                }
-                while (current.nextNode != null && !current.data.Equals(item))
+                current = sentinel;
+                while (current.nextNode != sentinel)
                 {
                     current = current.nextNode;
+                    if (current.data.Equals(item))
+                    {
+                        current.previousNode.nextNode = current.nextNode;
+                        current.nextNode.previousNode = current.previousNode;
+                        return true;
+                    }
                 }
-                current.previousNode.nextNode = current.nextNode;
-                if (current.nextNode == null)
-                    return true;
-                else
-                {
-                    current.nextNode.previousNode = current.previousNode;
-                    return true;
-                }
-                
-
+                nodesCount--;
             }
             return false;
         }

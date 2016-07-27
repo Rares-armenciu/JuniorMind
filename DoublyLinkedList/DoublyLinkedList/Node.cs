@@ -22,5 +22,13 @@ namespace DoublyLinkedList
             this.data = data;
             this.nextNode = nextNode;
         }
+
+        public Node()
+        {
+            T item = default(T);
+            data = item;
+            nextNode = this;
+            previousNode = this;
+        }
     }
 }
