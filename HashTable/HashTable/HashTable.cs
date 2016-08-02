@@ -37,7 +37,7 @@ namespace HashTable
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
@@ -59,7 +59,7 @@ namespace HashTable
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            Add(item.Key, item.Value);
         }
 
         public void Add(TKey key, TValue value)
@@ -71,17 +71,20 @@ namespace HashTable
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            elementCount = 0;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return ContainsKey(item.Key);
         }
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i <= elementCount; i++)
+                if (keys[i].Equals(key))
+                    return true;
+            return false;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
