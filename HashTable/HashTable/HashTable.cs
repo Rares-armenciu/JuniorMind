@@ -99,12 +99,23 @@ namespace HashTable
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return Remove(item.Key);
         }
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            if(ContainsKey(key))
+            {
+                for (int i=0; i <= elementCount; i++)
+                    if(keys[i].Equals(key))
+                    {
+                        keys[i] = default(TKey);
+                        values[i] = default(TValue);
+                        elementCount--;
+                        return true;
+                    }
+            }
+            return false;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
