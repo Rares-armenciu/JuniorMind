@@ -9,6 +9,9 @@ namespace HashTable
 {
     class HashTable<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        TValue[] values = new TValue[10];
+        TKey[] keys = new TKey[10];
+        int elementCount = 0;
         public TValue this[TKey key]
         {
             get
@@ -26,7 +29,7 @@ namespace HashTable
         {
             get
             {
-                throw new NotImplementedException();
+                return elementCount;
             }
         }
 
@@ -61,7 +64,9 @@ namespace HashTable
 
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            values[elementCount] = value;
+            keys[elementCount] = key;
+            elementCount++;
         }
 
         public void Clear()

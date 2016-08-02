@@ -1,14 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace HashTable
 {
-    [TestClass]
     public class HashTableTests
     {
-        [TestMethod]
-        public void TestMethod1()
+        [Fact]
+        public void AddElements()
         {
+            var table = new HashTable<int, string>();
+            table.Add(1, "Rares");
+            table.Add(2, "Sergiu");
+            Assert.Equal(2, table.Count);
         }
     }
 }
