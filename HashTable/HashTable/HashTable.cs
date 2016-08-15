@@ -73,6 +73,7 @@ namespace Hashtable
             int hash = GetHash(key);
             previous = buckets[hash];
             elements[count] = new Element(key, value, count-1);
+            elements[count + 1].previous = count;
             count++;
             buckets[hash] = count;
         }
@@ -116,7 +117,21 @@ namespace Hashtable
 
         public bool Remove(TKey key)
         {
-            throw new NotImplementedException();
+            int hash = GetHash(key);
+            if (ContainsKey(key))
+            {
+                for (int i = buckets[hash]; i != -1; i = elements[i].previous)
+                {
+                    if(elements[i].key.Equals(key))
+                    {
+                        elements[i] = default(Element);
+                        count--;
+                    }
+                }
+                buckets[hash] = 0;
+                return true;
+            }
+            return false;
         }
 
         public bool TryGetValue(TKey key, out TValue value)
