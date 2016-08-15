@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HashTable")]
+[assembly: AssemblyTitle("Hashtable")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HashTable")]
+[assembly: AssemblyProduct("Hashtable")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("04135a01-2913-49b9-87cd-5fc9e4c64aaa")]
+[assembly: Guid("e6cb8aec-f899-4146-8a5b-d5e03dcb9b94")]
 
 // Version information for an assembly consists of the following four values:
 //
