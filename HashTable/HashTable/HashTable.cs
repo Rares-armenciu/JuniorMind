@@ -9,6 +9,14 @@ namespace Hashtable
 {
     class Hashtable<TKey, TValue> : IDictionary<TKey, TValue>
     {
+        int[] buckets;
+        Element[] elements;
+        int count = 0;
+        public Hashtable()
+        {
+            buckets = new int[10];
+            elements = new Element[10];
+        }
         public TValue this[TKey key]
         {
             get
@@ -26,7 +34,7 @@ namespace Hashtable
         {
             get
             {
-                throw new NotImplementedException();
+                return count;
             }
         }
 
@@ -61,7 +69,10 @@ namespace Hashtable
 
         public void Add(TKey key, TValue value)
         {
-            throw new NotImplementedException();
+            int hash = GetHash(key);
+            elements[count] = new Element(key, value);
+            count++;
+            buckets[hash] = count;
         }
 
         public void Clear()
@@ -107,6 +118,23 @@ namespace Hashtable
         IEnumerator IEnumerable.GetEnumerator()
         {
             throw new NotImplementedException();
+        }
+
+        private int GetHash(TKey hashCode)
+        {
+            return hashCode.GetHashCode() % buckets.Length;
+        }
+
+        public struct Element
+        {
+            public TKey key;
+            public TValue value;
+
+            public Element(TKey key, TValue value)
+            {
+                this.key = key;
+                this.value = value;
+            }
         }
     }
 }
