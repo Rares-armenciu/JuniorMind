@@ -65,7 +65,7 @@ namespace Hashtable
 
         public void Add(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            Add(item.Key, item.Value);
         }
 
         public void Add(TKey key, TValue value)
@@ -85,7 +85,7 @@ namespace Hashtable
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return ContainsKey(item.Key);
         }
 
         public bool ContainsKey(TKey key)
@@ -112,7 +112,7 @@ namespace Hashtable
 
         public bool Remove(KeyValuePair<TKey, TValue> item)
         {
-            throw new NotImplementedException();
+            return Remove(item.Key);
         }
 
         public bool Remove(TKey key)
