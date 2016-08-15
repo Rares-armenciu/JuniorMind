@@ -12,6 +12,7 @@ namespace Hashtable
         int[] buckets;
         Element[] elements;
         int count = 0;
+        int previous = 0;
         public Hashtable()
         {
             buckets = new int[10];
@@ -70,7 +71,8 @@ namespace Hashtable
         public void Add(TKey key, TValue value)
         {
             int hash = GetHash(key);
-            elements[count] = new Element(key, value);
+            previous = buckets[hash];
+            elements[count] = new Element(key, value, count-1);
             count++;
             buckets[hash] = count;
         }
@@ -87,7 +89,14 @@ namespace Hashtable
 
         public bool ContainsKey(TKey key)
         {
-            throw new NotImplementedException();
+            if (buckets[GetHash(key)] > 0)
+            {
+                for (int i = buckets[GetHash(key)]; i != -1; i = elements[i].previous)
+                {
+                    if (elements[i].key.Equals(key)) return true;
+                }
+            }
+            return false;
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
@@ -129,11 +138,13 @@ namespace Hashtable
         {
             public TKey key;
             public TValue value;
+            public int previous;
 
-            public Element(TKey key, TValue value)
+            public Element(TKey key, TValue value, int previous)
             {
                 this.key = key;
                 this.value = value;
+                this.previous = previous;
             }
         }
     }
