@@ -46,5 +46,26 @@ namespace Hashtable
             table.Clear();
             Assert.Equal(0, table.Count);
         }
+
+        [Fact]
+        public void GetValueTest()
+        {
+            var table = new Hashtable<int, string>();
+            table.Add(1, "Rares");
+            table.Add(2, "Andrei");
+            table.Add(3, "Radu");
+            Assert.Equal("Rares", table[1]);
+        }
+
+        [Fact]
+        public void SetValueTest()
+        {
+            var table = new Hashtable<int, string>();
+            table.Add(1, "Rares");
+            table.Add(2, "Andrei");
+            table.Add(3, "Radu");
+            table[4] = "Bogdan";
+            Assert.Equal(4, table.Count);
+        }
     }
 }

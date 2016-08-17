@@ -21,12 +21,12 @@ namespace Hashtable
         {
             get
             {
-                throw new NotImplementedException();
+                return elements[buckets[GetHash(key)]-1].value;
             }
 
             set
             {
-                throw new NotImplementedException();
+                Add(key, value);
             }
         }
 
