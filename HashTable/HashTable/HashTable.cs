@@ -12,7 +12,6 @@ namespace Hashtable
         int[] buckets;
         Element[] elements;
         int count = 0;
-        int previous = 0;
         public Hashtable()
         {
             buckets = new int[10];
@@ -43,7 +42,7 @@ namespace Hashtable
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
 
@@ -71,7 +70,6 @@ namespace Hashtable
         public void Add(TKey key, TValue value)
         {
             int hash = GetHash(key);
-            previous = buckets[hash];
             elements[count] = new Element(key, value, count-1);
             elements[count + 1].previous = count;
             count++;
