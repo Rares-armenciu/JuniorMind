@@ -78,7 +78,11 @@ namespace Hashtable
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            foreach(int i in buckets)
+            {
+                buckets[i] = 0;
+            }  
+            count = 0;
         }
 
         public bool Contains(KeyValuePair<TKey, TValue> item)
